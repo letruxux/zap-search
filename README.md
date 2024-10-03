@@ -1,15 +1,40 @@
-# crack
+# zap search
 
-To install dependencies:
+zap search is a simple search engine that allows you to search for games, software and other miscellaneous content easily with a web interface.
+
+## Run in development
+
+### Build
 
 ```bash
 bun install
 ```
 
-To run:
+### Run
 
 ```bash
-bun run index.ts
+bun run start:all
 ```
 
-This project was created using `bun init` in bun v1.1.29. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## Run with Docker
+
+### Build
+
+```bash
+bun install
+docker build -t zap .
+```
+
+### Run
+
+```bash
+docker run -p PORT:5180 zap
+```
+
+## Contribute
+
+Want to contribute? Open an issue or a pull request.
+
+## Donate
+
+If you like this project, please consider [donating to the developer](https://ko-fi.com/letruxux).
