@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0",
+    "google-sr": "^4.0.0",
     "hono": "^4.5.8",
     "ky": "^1.7.1"
   },
