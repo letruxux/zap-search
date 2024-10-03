@@ -11,7 +11,7 @@
     "start:backend": "bun run --cwd packages/backend start",
     "start:all": "concurrently \"bun run start:frontend\" \"bun run start:backend\"",
     "build:frontend": "bun run --cwd packages/frontend build",
-    "build:backend": "bun run --cwd packages/backend compile",
+    "build:backend": "bun run --cwd packages/backend compile:win",
     "build:all": "bun run build:frontend && bun run build:backend"
   },
   "devDependencies": {

@@ -15,6 +15,8 @@
   },
   "scripts": {
     "start": "bun .",
-    "compile": "bun build . --compile --target=bun-windows-x64 --outfile ./server.exe"
+    "compile": "bun build . --compile --target=bun-linux-x64 --outfile ./server",
+    "compile:win": "bun build . --compile --target=bun-windows-x64 --outfile ./server.exe",
+    "compile:all": "npm run compile && npm run compile:win"
   }
 }
