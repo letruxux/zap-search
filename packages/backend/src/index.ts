@@ -1,5 +1,5 @@
-import { type ProviderInfo } from "shared/defs";
-import search from "./utils";
+import BaseResult, { type ProviderInfo } from "shared/defs";
+import search, { rankItems } from "./utils";
 import allProviders from "./providers";
 
 import { Hono } from "hono";
@@ -17,16 +17,39 @@ app.get("/api/search", async (c) => {
   try {
     const queryParams = c.req.query();
     const { provider, query } = queryParams;
-    const providerInstance = allProviders.find((p) => p.id === provider);
-    if (!providerInstance) {
+
+    const providerIds = provider.split(",");
+    const providerInstances = allProviders.filter((p) => providerIds.includes(p.id));
+
+    console.log("providerInstances", providerInstances);
+    console.log("providerIds", providerIds);
+
+    if (providerInstances.length !== providerIds.length) {
       return c.json({ error: "Provider not found" }, 404);
     }
 
-    const results = await search(providerInstance, {
-      query,
-    });
+    const errors: Error[] = [];
+    const results: BaseResult[] = [];
+    for (const providerInstance of providerInstances) {
+      try {
+        const results2 = await search(providerInstance, {
+          query,
+        });
+        results.push(...results2);
+      } catch (e) {
+        if (providerInstances.length === 1) {
+          throw e;
+        }
 
-    return c.json(results);
+        console.error(e);
+        errors.push(e);
+      }
+    }
+
+    return c.json({
+      error: errors.length > 0 ? errors.map((e) => e.message).join("\n") : null,
+      data: rankItems(query, results),
+    });
   } catch (e) {
     console.error(e);
     if (e instanceof Error) {

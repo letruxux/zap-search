@@ -1,5 +1,5 @@
-import type SearchResult from "../../../server/defs";
-import { Action } from "../../../server/defs";
+import type SearchResult from "shared/defs";
+import { Action } from "shared/defs";
 import { icons } from "../icons";
 import ImageWithPopup from "./Image";
 

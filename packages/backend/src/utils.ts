@@ -52,3 +52,39 @@ export default async function search(
 
   return [];
 }
+
+function cleanString(input: string): string {
+  return input.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+}
+
+export function rankItems(query: string, items: BaseResult[]): BaseResult[] {
+  const cleanedQuery = cleanString(query);
+  const queryKeywords = cleanedQuery.split(" ");
+
+  const rankedIndex = items
+    .map((entry) => {
+      let points = 0;
+      const entryKeywords = entry.title.split(" ");
+
+      const cleanedName = cleanString(entry.title);
+      const cleanedKeywords = entryKeywords.map(cleanString);
+
+      if (cleanedName.includes(cleanedQuery)) {
+        points += 2;
+      }
+
+      queryKeywords.forEach((keyword) => {
+        if (cleanedName.includes(keyword)) {
+          points += 1;
+        }
+        if (cleanedKeywords.some((k) => k.includes(keyword))) {
+          points += 1;
+        }
+      });
+
+      return { ...entry, points };
+    })
+    .sort((a, b) => b.points - a.points);
+
+  return rankedIndex;
+}
