@@ -14,10 +14,10 @@ COPY . .
 RUN bun install
 
 # Build the application
-RUN bun run build:all
+RUN bun run build:frontend
 
 # Expose the port the app runs on
 EXPOSE 5180
 
 # Start the application
-CMD ["bun", "run", "start:all"]
+CMD ["bun", "run", "start:backend"]

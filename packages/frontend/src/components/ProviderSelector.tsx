@@ -15,7 +15,7 @@ const ProviderSelector: React.FC<ProviderSelectorProps> = ({
   <div className="dropdown input-bordered w-full mb-2 z-10">
     <label
       tabIndex={0}
-      className="btn w-full justify-between btn-bordered bg-base-100 border border-white border-opacity-10 hover:bg-base-100 hover:border-white hover:border-opacity-10"
+      className="btn w-full justify-between btn-bordered bg-base-100 border border-white border-opacity-10 hover:bg-base-100 hover:border-white hover:border-opacity-10 font-normal"
     >
       {selectedProviders.length > 0
         ? `${selectedProviders.length} provider(s) selected`
