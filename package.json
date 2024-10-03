@@ -1,0 +1,20 @@
+{
+  "name": "crack",
+  "private": true,
+  "workspaces": [
+    "packages/frontend",
+    "packages/backend",
+    "packages/shared"
+  ],
+  "scripts": {
+    "start:frontend": "bun run --cwd packages/frontend dev",
+    "start:backend": "bun run --cwd packages/backend start",
+    "start:all": "concurrently \"bun run start:frontend\" \"bun run start:backend\"",
+    "build:frontend": "bun run --cwd packages/frontend build",
+    "build:backend": "bun run --cwd packages/backend compile",
+    "build:all": "concurrently \"bun run build:frontend\" \"bun run build:backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}

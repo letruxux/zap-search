@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "hono": "^4.5.8",
+    "ky": "^1.7.1"
+  },
+  "scripts": {
+    "start": "bun .",
+    "compile": "bun compile --outdir ./dist --target=node18"
+  }
+}
