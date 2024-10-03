@@ -1,5 +1,5 @@
 {
-  "name": "crack",
+  "name": "zap-search",
   "private": true,
   "workspaces": [
     "packages/frontend",
