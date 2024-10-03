@@ -2,7 +2,7 @@ export default function FloatingFooter() {
   return (
     <footer className="fixed bottom-4 left-0 w-full p-2 flex justify-center text-sm">
       <a
-        href="https://github.com/letruxux/srch"
+        href="https://github.com/letruxux/zap-search"
         target="_blank"
         className="link hover:opacity-90 transition-opacity"
       >
