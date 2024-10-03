@@ -5,12 +5,12 @@ import Ovagames from "./providers/ovagames";
 import Steamrip from "./providers/steamrip";
 import Annasarchive from "./providers/annasarchive";
 import Filecr from "./providers/filecr";
-import Medium from "./providers/medium";
 import Ofme from "./providers/ofme";
 import Nxbrew from "./providers/nxbrew";
 import Nswrom from "./providers/nswrom";
 import Monkrus from "./providers/monkrus";
 import Ziperto from "./providers/ziperto";
+
 import type { ProviderExports } from "shared/defs";
 
 export default [
@@ -21,7 +21,6 @@ export default [
   Steamrip,
   Annasarchive,
   Filecr,
-  Medium,
   Ofme,
   Nxbrew,
   Nswrom,
