@@ -15,6 +15,6 @@
   },
   "scripts": {
     "start": "bun .",
-    "compile": "bun compile --outdir ./dist --target=node18"
+    "compile": "bun build . --compile --target=bun-windows-x64 --outfile ./server.exe"
   }
 }

@@ -6,7 +6,8 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: "./../server/dist",
+    /* https://vitejs.dev/config/build-options.html#build-outdir */
+    outDir: "./../backend/dist",
     assetsDir: "assets",
     rollupOptions: {
       input: "index.html",
