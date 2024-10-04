@@ -141,3 +141,19 @@ export async function safePromise<T, E = Error>(
     return [null, error as E];
   }
 }
+
+export function getHighestResImg(srcset: string): string {
+  const sources: {
+    url: string;
+    width: number;
+  }[] = srcset.split(",").map((item) => {
+    const [url, widthStr] = item.trim().split(" ");
+    return { url, width: parseInt(widthStr, 10) };
+  });
+
+  const highestRes = sources.reduce((highest, current) =>
+    current.width > highest.width ? current : highest
+  );
+
+  return highestRes.url;
+}
