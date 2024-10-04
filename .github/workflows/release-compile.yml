@@ -45,21 +45,11 @@ jobs:
         with:
           name: dist.zip
 
-      # Debugging Step: Print GitHub Token
-      - name: Debug GitHub Token
-        run: |
-          echo "GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
-
-      # Debugging Step: Check Token Permissions
-      - name: Check Token Permissions
-        run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/actions/permissions
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.1.0 # Updated version
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Use your PAT here
         with:
           tag_name: ${{ github.ref_name }}
           release_name: Release ${{ github.ref_name }}
