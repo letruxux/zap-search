@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { emojis } from "shared/defs";
 import type { Category, ProviderInfo } from "shared/defs";
 
@@ -19,6 +19,29 @@ const ProviderSelector: React.FC<ProviderSelectorProps> = ({
     return acc;
   }, {} as Record<Category, ProviderInfo[]>);
 
+  const [expandedCategories, setExpandedCategories] = useState<Record<Category, boolean>>(
+    () => {
+      const saved = localStorage.getItem("expandedCategories");
+      return saved
+        ? JSON.parse(saved)
+        : Object.keys(groupedProviders).reduce((acc, category) => {
+            acc[category as Category] = true;
+            return acc;
+          }, {} as Record<Category, boolean>);
+    }
+  );
+
+  useEffect(() => {
+    localStorage.setItem("expandedCategories", JSON.stringify(expandedCategories));
+  }, [expandedCategories]);
+
+  const toggleCategory = (category: Category) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
+  };
+
   return (
     <div className="dropdown input-bordered w-full mb-2 z-10">
       <label
@@ -37,41 +60,52 @@ const ProviderSelector: React.FC<ProviderSelectorProps> = ({
       >
         {Object.entries(groupedProviders).map(([category, categoryProviders]) => (
           <React.Fragment key={category}>
-            <li className="menu-title text-base-content">
-              {emojis[category as Category]} {category}
+            <li
+              className="menu-title text-base-content cursor-pointer hover:bg-base-200"
+              onClick={() => toggleCategory(category as Category)}
+            >
+              <span>
+                {emojis[category as Category]} {category}{" "}
+                <span className="text-gray-600 text-sm">
+                  {!expandedCategories[category as Category] && "(hidden)"}
+                </span>
+              </span>
             </li>
-            {categoryProviders.map((provider) => {
-              const sameAction =
-                selectedProviders.length > 0
-                  ? selectedProviders.some((e) => e.category === provider.category)
-                  : true;
-              return (
-                <li key={provider.id} className="w-full">
-                  <label className="label cursor-pointer flex flex-col items-start">
-                    <div
-                      className={clsx("flex items-center w-full", {
-                        "cursor-not-allowed": !sameAction,
-                      })}
-                    >
-                      <input
-                        type="checkbox"
-                        className="checkbox mr-2"
-                        checked={selectedProviders.map((e) => e.id).includes(provider.id)}
-                        disabled={!sameAction}
-                        onChange={() => {
-                          if (sameAction) {
-                            handleProviderChange(provider);
-                          }
-                        }}
-                      />
-                      <span className="flex-grow">
-                        {provider.name} {provider.notice}
-                      </span>
-                    </div>
-                  </label>
-                </li>
-              );
-            })}
+            {expandedCategories[category as Category] &&
+              categoryProviders.map((provider) => {
+                const sameAction =
+                  selectedProviders.length > 0
+                    ? selectedProviders.some((e) => e.category === provider.category)
+                    : true;
+                return (
+                  <li key={provider.id} className="w-full">
+                    <label className="label cursor-pointer flex flex-col items-start">
+                      <div
+                        className={clsx("flex items-center w-full", {
+                          "cursor-not-allowed": !sameAction,
+                        })}
+                      >
+                        <input
+                          type="checkbox"
+                          className="checkbox mr-2"
+                          checked={selectedProviders
+                            .map((e) => e.id)
+                            .includes(provider.id)}
+                          disabled={!sameAction}
+                          onChange={() => {
+                            if (sameAction) {
+                              handleProviderChange(provider);
+                            }
+                          }}
+                        />
+                        <span className="flex-grow">
+                          {provider.name} {provider.notice}
+                        </span>
+                      </div>
+                    </label>
+                  </li>
+                );
+              })}
           </React.Fragment>
         ))}
       </ul>
