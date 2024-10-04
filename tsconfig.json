@@ -5,6 +5,7 @@
       "@frontend/*": ["packages/frontend/src/*"],
       "@backend/*": ["packages/backend/src/*"],
       "@shared/*": ["packages/shared/src/*"]
-    }
+    },
+    "esModuleInterop": true
   }
 }

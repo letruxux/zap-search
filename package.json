@@ -12,9 +12,11 @@
     "start:all": "concurrently \"bun run start:frontend\" \"bun run start:backend\"",
     "build:frontend": "bun run --cwd packages/frontend build",
     "build:backend": "bun run --cwd packages/backend compile:win",
-    "build:all": "bun run build:frontend && bun run build:backend"
+    "build:all": "bun run build:frontend && bun run build:backend",
+    "compile:win": "bun run build:all && bun ./zipcompile.ts"
   },
   "devDependencies": {
-    "concurrently": "^9.0.1"
+    "concurrently": "^9.0.1",
+    "jszip": "^3.10.1"
   }
 }
