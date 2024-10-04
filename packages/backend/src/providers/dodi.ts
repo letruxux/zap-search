@@ -1,6 +1,6 @@
-import { search, OrganicResult, ResultTypes } from "google-sr";
 import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
+import { webSearch } from "../utils";
 
 const baseUrl = "https://dodi-repacks.site/";
 
@@ -9,25 +9,18 @@ export function generateUrl({ query }: { query: string }) {
 }
 
 export async function fetchResults(query: string): Promise<BaseResult[]> {
-  const queryResult = await search({
-    query,
-    resultTypes: [OrganicResult],
-  });
+  const queryResult = await webSearch(query);
 
   const dataResults: BaseResult[] = [];
 
   queryResult.forEach((result) => {
     /* oh gosh why is this so bad... */
     if (
-      result.type === ResultTypes.OrganicResult &&
-      result.link &&
-      result.link.startsWith(baseUrl) &&
       result.link.trim() !== baseUrl &&
       !result.link.endsWith("upcoming-repacks/") &&
       !result.link.includes("all-repacks-") &&
       !result.link.includes("/page/") &&
       !/^\d+\/\d(?!\/)/.test(result.link.replace(baseUrl, "")) &&
-      result.title &&
       result.title.length > 1 &&
       result.title.trim() !== "DODI Repacks"
     ) {

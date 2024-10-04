@@ -4,11 +4,10 @@ import type { ProviderExports } from "shared/defs";
 
 const baseUrl = "https://fitgirl-repacks.site/";
 
-export function generateUrl({ query }: { query: string | undefined }) {
+export function generateUrl({ query }: { query: string }) {
   const urlObj = new URL(baseUrl);
-  if (query) {
-    urlObj.searchParams.set("s", query);
-  }
+
+  urlObj.searchParams.set("s", query);
 
   const urlString = urlObj.toString();
   console.log(`Generated URL: ${urlString}`);
