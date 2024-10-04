@@ -30,20 +30,26 @@ app.get("/api/search", async (c) => {
 
     const errors: Error[] = [];
     const results: BaseResult[] = [];
-    for (const providerInstance of providerInstances) {
+
+    const searchPromises = providerInstances.map(async (providerInstance) => {
       try {
         const results2 = await search(providerInstance, {
           query,
         });
-        results.push(...results2);
+        return results2;
       } catch (e) {
-        if (providerInstances.length === 1) {
-          throw e;
-        }
-
         console.error(e);
         errors.push(e);
+        return [];
       }
+    });
+
+    const allResults = await Promise.all(searchPromises);
+    results.push(...allResults.flat());
+
+    /* if theres only 1 provider, return the error */
+    if (results.length === 0 && errors.length === providerInstances.length) {
+      throw errors[0];
     }
 
     return c.json({
