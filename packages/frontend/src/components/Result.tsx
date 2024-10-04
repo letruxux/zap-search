@@ -11,7 +11,7 @@ export default function Result({
   providerAction: Action;
 }) {
   return (
-    <div className="card bg-base-300 shadow-xl hover:shadow-2xl transition-shadow duration-300 mt-4">
+    <div className="card bg-base-300 shadow-xl hover:shadow-2xl transition-shadow duration-300 mt-4 first:mt-2">
       <div className="card-body flex flex-row items-center">
         {/* icon */}
         {result.icon && (

@@ -113,6 +113,11 @@ function App() {
           {!loading && searchResults.length === 0 && ranYet && (
             <div className="flex justify-center mt-32">No results</div>
           )}
+          {!loading && searchResults.length > 0 && ranYet && (
+            <div className="mt-2 ml-1">
+              Found <span className="font-bold">{searchResults.length}</span> results.
+            </div>
+          )}
           <ResultsList
             searchResults={searchResults}
             providerAction={selectedProviders[0]?.action || "Download"}

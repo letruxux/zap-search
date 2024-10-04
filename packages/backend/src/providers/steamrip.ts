@@ -45,7 +45,7 @@ async function mainSearch(url: string): Promise<BaseResult[] | null> {
 
     return dataResults;
   } catch (e) {
-    console.error("Error in mainSearch:", e);
+    console.error("Error while processing, using fallback.");
     return null;
   }
 }
@@ -80,8 +80,6 @@ async function secondaryGoogleSearch(ogQuery: string): Promise<BaseResult[]> {
         icon,
       };
       dataResults.push(data);
-    } else {
-      console.log(`Skipping result: ${result.title}`);
     }
   });
 

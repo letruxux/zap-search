@@ -22,15 +22,11 @@ app.get("/api/search", async (c) => {
     const providerIds = provider.split(",");
     const providerInstances = allProviders.filter((p) => providerIds.includes(p.id));
 
-    console.log("providerInstances", providerInstances);
-    console.log("providerIds", providerIds);
-
     if (providerInstances.length !== providerIds.length) {
       return c.json({ error: "Provider not found" }, 404);
     }
 
     const errors: Error[] = [];
-    const results: BaseResult[] = [];
 
     const searchPromises = providerInstances.map(async (providerInstance) => {
       try {
@@ -45,8 +41,8 @@ app.get("/api/search", async (c) => {
       }
     });
 
-    const allResults = await Promise.all(searchPromises);
-    results.push(...allResults.flat());
+    const results = (await Promise.all(searchPromises)).flat();
+    console.log(results.length, "total results found");
 
     /* if theres only 1 provider, return the error */
     if (results.length === 0 && errors.length === providerInstances.length) {

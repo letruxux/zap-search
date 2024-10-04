@@ -8,11 +8,11 @@ interface ResultsListProps {
 }
 
 const ResultsList: React.FC<ResultsListProps> = ({ searchResults, providerAction }) => (
-  <>
+  <div>
     {searchResults.map((result) => (
       <Result key={result.link} result={result} providerAction={providerAction} />
     ))}
-  </>
+  </div>
 );
 
 export default ResultsList;

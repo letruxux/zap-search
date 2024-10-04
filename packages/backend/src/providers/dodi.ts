@@ -43,8 +43,6 @@ export async function fetchResults(query: string): Promise<BaseResult[]> {
         icon,
       };
       dataResults.push(data);
-    } else {
-      console.log(`Skipping result: ${result.title}`);
     }
   });
 
