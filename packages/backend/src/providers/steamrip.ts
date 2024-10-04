@@ -1,8 +1,7 @@
 import * as cheerio from "cheerio";
 import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
-import { search, OrganicResult, ResultTypes } from "google-sr";
-import { fetchPage } from "../utils";
+import { fetchPage, webSearch } from "../utils";
 
 const baseUrl = "https://steamrip.com/";
 
@@ -52,21 +51,12 @@ async function mainSearch(url: string): Promise<BaseResult[] | null> {
 
 async function secondaryGoogleSearch(ogQuery: string): Promise<BaseResult[]> {
   const query = `site:${new URL(baseUrl).hostname} ${ogQuery}`;
-  const queryResult = await search({
-    query,
-    resultTypes: [OrganicResult],
-  });
+  const queryResult = await webSearch(query);
 
   const dataResults: BaseResult[] = [];
 
   queryResult.forEach((result) => {
-    /* oh gosh why is this so bad... */
-    if (
-      result.type === ResultTypes.OrganicResult &&
-      result.link &&
-      result.title &&
-      result.title.toLowerCase().includes("free download")
-    ) {
+    if (result.title.toLowerCase().includes("free download")) {
       const title = result.title
         .replace(" Free Download", "")
         .replace(" - SteamRIP", "")
