@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     tags:
-      - "*" # This will trigger on any tag push
+      - "v*" # This will trigger on any tag push
 
 jobs:
   build:

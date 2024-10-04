@@ -108,6 +108,9 @@ if (!distFolder.exists()) {
   );
 }
 
+console.log(`CTRL + click on the link below to open the app in your browser.`);
+console.log(`http://localhost:${port}`);
+
 serve({
   fetch: app.fetch,
   port,
