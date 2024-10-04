@@ -16,7 +16,7 @@ export default function FloatingFooter() {
           target="_blank"
           className="link hover:opacity-90 transition-opacity"
         >
-          Github
+          GitHub
         </a>
         <span className="mr-1 ml-1">•</span>
         <a
