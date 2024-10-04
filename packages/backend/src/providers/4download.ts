@@ -1,6 +1,6 @@
 import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
-import { fetchPage, webSearch } from "../utils";
+import { fetchPage } from "../utils";
 import * as cheerio from "cheerio";
 
 const baseUrl = "https://4download.net";
