@@ -43,7 +43,7 @@ const ProviderSelector: React.FC<ProviderSelectorProps> = ({
             {categoryProviders.map((provider) => {
               const sameAction =
                 selectedProviders.length > 0
-                  ? selectedProviders.some((e) => e.action === provider.action)
+                  ? selectedProviders.some((e) => e.category === provider.category)
                   : true;
               return (
                 <li key={provider.id} className="w-full">
