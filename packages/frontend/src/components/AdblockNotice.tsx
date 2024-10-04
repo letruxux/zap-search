@@ -46,10 +46,10 @@ const text = (
 const setAdblockModalClosed = () => localStorage.setItem("adblockModalClosed", "1");
 const getAdblockModalClosed = () => localStorage.getItem("adblockModalClosed") === "1";
 
-const openModal = () =>
+export const openModal = () =>
   (document.getElementById("adblockmodal") as HTMLDialogElement | undefined)?.showModal();
 
-const closeModal = () =>
+export const closeModal = () =>
   (document.getElementById("adblockmodal") as HTMLDialogElement | undefined)?.close();
 
 export default function AdblockNotice() {
