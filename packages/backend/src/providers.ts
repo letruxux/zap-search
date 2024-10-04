@@ -16,6 +16,7 @@ import FourDownload from "./providers/4download";
 import cracksurl from "./providers/cracksurl";
 
 import type { ProviderExports } from "shared/defs";
+import zlib from "./providers/zlib";
 
 export default [
   /* games */
@@ -28,6 +29,7 @@ export default [
 
   /* reading */
   Annasarchive,
+  zlib,
 
   /* software */
   Monkrus,
