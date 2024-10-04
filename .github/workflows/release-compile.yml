@@ -31,7 +31,8 @@ jobs:
           path: ./dist.zip
 
   release:
-    needs: build
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:
@@ -49,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }} # Use the tag name that triggered the workflow
+          tag_name: ${{ github.ref_name }}
           release_name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
