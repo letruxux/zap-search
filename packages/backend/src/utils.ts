@@ -18,7 +18,7 @@ export async function fetchPage(url: string, config?: Options) {
   } catch (e) {
     if (e instanceof HTTPError) {
       if (
-        e.message.toLocaleLowerCase().includes("403") ||
+        e.message.includes("403") ||
         e.message.toLocaleLowerCase().includes("forbidden")
       ) {
         throw new Error("Captcha detected, please try again later");
