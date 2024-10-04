@@ -10,6 +10,7 @@ import { serve } from "bun";
 
 const app = new Hono();
 const port = 5180;
+const distFolderPath = "./dist";
 
 app.use("/api/*", cors());
 
@@ -85,7 +86,7 @@ app.get("/api/providers", async (c) => {
 app.use(
   "/*",
   serveStatic({
-    root: "./dist",
+    root: distFolderPath,
     getContent: async (path) => {
       try {
         const file = Bun.file(path);
@@ -104,7 +105,12 @@ app.use(
   })
 );
 
-console.log(`Listening on port http://localhost:${port}`);
+const distFolder = Bun.file(distFolderPath);
+if (!distFolder.exists()) {
+  throw new Error(
+    `"${distFolderPath}" folder not found. Make sure you haven\'t moved the dist folder or the executable.`
+  );
+}
 
 serve({
   fetch: app.fetch,
