@@ -26,7 +26,7 @@ export function parsePage(page: string): BaseResult[] {
 
       const link = $(el).find("h1 a").attr("href")!.trim();
       const icon = $(el).find("img").attr("src")!;
-      console.log(`Parsed result - Title: ${title}, Link: ${link}, Icon: ${icon}`);
+
       if (!title || !link) {
         console.warn("Skipping element due to missing data:", title);
         return;
@@ -52,7 +52,6 @@ export function parsePage(page: string): BaseResult[] {
     }
   });
 
-  console.log(`Parsed ${dataResults.length} results.`);
   return dataResults;
 }
 

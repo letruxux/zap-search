@@ -25,7 +25,7 @@ function parsePage(page: string): BaseResult[] {
       const title = $(el).find("h2.post-title").text().trim();
       const link = $(el).find("h2.post-title a").attr("href")!.trim();
       const icon = $(el).find(".post-body img").attr("src")!;
-      console.log(`Parsed result - Title: ${title}, Link: ${link}, Icon: ${icon}`);
+
       dataResults.push({
         title,
         link,
@@ -36,7 +36,6 @@ function parsePage(page: string): BaseResult[] {
     }
   });
 
-  console.log(`Parsed ${dataResults.length} results.`);
   return dataResults;
 }
 

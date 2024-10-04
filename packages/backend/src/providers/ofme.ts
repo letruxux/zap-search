@@ -26,7 +26,7 @@ export function parsePage(page: string): BaseResult[] {
       const title = $(el).find("h2.title").text().trim().slice(0, -8);
       const link = $(el).find(".image a").attr("href")!.trim();
       const icon = $(el).find("img.lazyload").attr("data-src")!;
-      console.log(`Parsed result - Title: ${title}, Link: ${link}, Icon: ${icon}`);
+
       dataResults.push({
         title,
         link,
@@ -37,7 +37,6 @@ export function parsePage(page: string): BaseResult[] {
     }
   });
 
-  console.log(`Parsed ${dataResults.length} results.`);
   return dataResults;
 }
 

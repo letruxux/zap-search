@@ -32,7 +32,7 @@ async function mainSearch(url: string): Promise<BaseResult[] | null> {
           .trim();
         const link = baseUrl + $(el).find("div.slide a").attr("href")!.trim();
         const icon = undefined; //$(el).find("div.slide").attr("data-back")!;
-        console.log(`Parsed result - Title: ${title}, Link: ${link}, Icon: ${icon}`);
+
         dataResults.push({
           title,
           link,
@@ -43,7 +43,6 @@ async function mainSearch(url: string): Promise<BaseResult[] | null> {
       }
     });
 
-    console.log(`Parsed ${dataResults.length} results.`);
     return dataResults;
   } catch (e) {
     console.error("Error in mainSearch:", e);

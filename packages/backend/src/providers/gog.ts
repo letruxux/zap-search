@@ -24,7 +24,7 @@ export function parsePage(page: string): BaseResult[] {
     const title = result.title;
     const link = `${baseUrl}game/${result.slug}`;
     const icon = `https://images.gog-statics.com/${result.image}.webp`;
-    console.log(`Parsed result - Title: ${title}, Link: ${link}, Icon: ${icon}`);
+
     dataResults.push({
       title,
       link,
@@ -32,7 +32,6 @@ export function parsePage(page: string): BaseResult[] {
     });
   });
 
-  console.log(`Parsed ${dataResults.length} results.`);
   return dataResults;
 }
 

@@ -34,23 +34,26 @@ export default async function search(
   options: GenerateUrlOptions
 ): Promise<BaseResult[]> {
   const url = provider.generateUrl(options);
+  let data: BaseResult[] = [];
 
   /* pass query */
   try {
     if (provider.fetchResults) {
-      const data = await provider.fetchResults(url);
-      return data;
+      data = await provider.fetchResults(url);
     }
     if (provider.parsePage) {
       const html = await fetchPage(url);
-      const data = provider.parsePage(html);
-      return data;
+      data = provider.parsePage(html);
     }
   } catch (e) {
     throw e;
   }
 
-  return [];
+  if (data.length) {
+    console.log(`${provider.name} results:`, data.length);
+  }
+
+  return data;
 }
 
 function cleanString(input: string): string {

@@ -31,7 +31,7 @@ export async function fetchResults(ogUrl: string): Promise<BaseResult[]> {
       icon: undefined,
     },
   ];
-  console.log(`Parsed ${dataResults.length} results.`);
+
   return dataResults;
 }
 

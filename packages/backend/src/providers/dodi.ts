@@ -48,7 +48,6 @@ export async function fetchResults(query: string): Promise<BaseResult[]> {
     }
   });
 
-  console.log(`Parsed ${dataResults.length} results.`);
   return dataResults;
 }
 
