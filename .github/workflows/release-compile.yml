@@ -52,9 +52,29 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Use your PAT here
         with:
           tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
           draft: false
           prerelease: false
+          body: |
+            ## ${{ github.ref_name }}
+
+            ### What's Included
+            - Windows build (dist.zip)
+
+            ### Build Information
+            - Build Date: ${{ steps.current_time.outputs.time }}
+            - Commit: ${{ github.sha }}
+            - Branch: ${{ github.ref }}
+
+            ### Installation
+            - Download the Zip
+            - Extract
+            - Open the executable
+
+            ### Notes
+            - Don't move the executable away from the ./dist/ folder.
+            - Please report any issues or bugs on our GitHub issue tracker.
+            - For full changes, please refer to the commit history.
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1.0.2 # Updated version
