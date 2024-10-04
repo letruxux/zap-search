@@ -23,10 +23,11 @@ export const emojis: Record<Category, string> = {
   Software: "💻",
   Video: "📹",
   Reading: "📖",
+  Producing: "🎶",
 };
 
 /** provider category */
-export type Category = "Games" | "ROMs" | "Software" | "Video" | "Reading";
+export type Category = "Games" | "ROMs" | "Software" | "Video" | "Reading" | "Producing";
 
 /** data the api returns */
 export interface ProviderInfo {

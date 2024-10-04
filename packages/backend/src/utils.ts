@@ -1,6 +1,8 @@
 import type BaseResult from "shared/defs";
 import type { GenerateUrlOptions, ProviderExports } from "shared/defs";
 import ky, { HTTPError, type Options } from "ky";
+import { search as ddgSearchFunc } from "duck-duck-scrape";
+import { search as googSearchFunc, OrganicResult } from "google-sr";
 
 export async function fetchPage(url: string, config?: Options) {
   try {
@@ -90,4 +92,52 @@ export function relevanceSortResults(query: string, items: BaseResult[]): BaseRe
     .sort((a, b) => b.points - a.points);
 
   return rankedIndex;
+}
+/** tries google firsrt, then duckduck and returns the first result */
+export async function webSearch(query: string) {
+  const [googResult, googErr] = await safePromise(
+    googSearchFunc({ query, resultTypes: [OrganicResult] })
+  );
+  if (!googErr && googResult) {
+    const resList = googResult
+      .filter((e) => e.link && e.title && e.type === "ORGANIC")
+      .map((e) => {
+        return { link: e.link.trim(), title: e.title.trim() } as BaseResult;
+      });
+    return resList;
+  }
+
+  const [ddgResult, ddgErr] = await safePromise(ddgSearchFunc(query, { safeSearch: -2 }));
+  if (!ddgErr && ddgResult) {
+    const resList = ddgResult.results.map((e) => {
+      return { link: e.url.trim(), title: e.title.trim() } as BaseResult;
+    });
+    return resList;
+  }
+
+  throw new Error("Neither search engines succeeded.");
+}
+
+/**
+ * Awaits promises and returns the results and errors via array
+ * ```
+ * const [res, err] = await safePromise(fetch("https://google.com/"));
+ *
+ * if (err) {
+ *   console.error(err);
+ *   return;
+ * }
+ *
+ * return res;
+ * ```
+ */
+export async function safePromise<T, E = Error>(
+  promise: Promise<T>
+): Promise<[T, null] | [null, E]> {
+  try {
+    const result = await promise;
+    return [result, null];
+  } catch (error) {
+    return [null, error as E];
+  }
 }

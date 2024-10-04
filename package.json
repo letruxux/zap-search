@@ -18,5 +18,8 @@
   "devDependencies": {
     "concurrently": "^9.0.1",
     "jszip": "^3.10.1"
+  },
+  "dependencies": {
+    "duck-duck-scrape": "^2.2.5"
   }
 }
