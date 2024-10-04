@@ -24,11 +24,16 @@ function App() {
 
   const handleProviderChange = (provider: ProviderInfo) => {
     const providerId = provider.id;
-    setSelectedProviders((prev: ProviderInfo[]) =>
-      prev.some((provider) => provider.id === providerId)
-        ? prev.filter((provider) => provider.id !== providerId)
-        : [...prev, providers.find((provider) => provider.id === providerId)!]
-    );
+    setSelectedProviders((prev: ProviderInfo[]) => {
+      // check if the provider is already in list
+      if (prev.some((provider) => provider.id === providerId)) {
+        // remove
+        return prev.filter((provider) => provider.id !== providerId);
+      } else {
+        // add
+        return [...prev, providers.find((provider) => provider.id === providerId)!];
+      }
+    });
     setSearchResults([]);
     ranYet = false;
   };
