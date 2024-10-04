@@ -1,5 +1,5 @@
 import BaseResult, { type ProviderInfo } from "shared/defs";
-import search, { rankItems } from "./utils";
+import search, { relevanceSortResults } from "./utils";
 import allProviders from "./providers";
 
 import { Hono } from "hono";
@@ -54,7 +54,7 @@ app.get("/api/search", async (c) => {
 
     return c.json({
       error: errors.length > 0 ? errors.map((e) => e.message).join("\n") : null,
-      data: rankItems(query, results),
+      data: relevanceSortResults(query, results),
     });
   } catch (e) {
     console.error(e);

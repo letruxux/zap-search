@@ -57,7 +57,7 @@ function cleanString(input: string): string {
   return input.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 }
 
-export function rankItems(query: string, items: BaseResult[]): BaseResult[] {
+export function relevanceSortResults(query: string, items: BaseResult[]): BaseResult[] {
   const cleanedQuery = cleanString(query);
   const queryKeywords = cleanedQuery.split(" ");
 
