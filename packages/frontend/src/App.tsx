@@ -21,6 +21,9 @@ function App() {
   const [searchResults, setSearchResults] = useState<FinalResult[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const suggestedResults = searchResults.filter((e) => e.points >= 1);
+  const otherResults = searchResults.filter((e) => e.points < 1);
+
   const handleProviderChange = (provider: ProviderInfo) => {
     const providerId = provider.id;
     setSelectedProviders((prev: ProviderInfo[]) => {
@@ -114,7 +117,10 @@ function App() {
           )}
           {!loading && searchResults.length > 0 && ranYet && (
             <div className="mt-2 ml-1">
-              Found <span className="font-bold">{searchResults.length}</span> results.
+              Found <span className="font-bold">{suggestedResults.length}</span> results{" "}
+              {"(+"}
+              {otherResults.length} hidden
+              {")"}.
             </div>
           )}
           <ResultsList searchResults={searchResults} providers={providers} />

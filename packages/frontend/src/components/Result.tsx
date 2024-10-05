@@ -4,13 +4,16 @@ import ImageWithPopup from "./Image";
 import HoverTooltip from "./HoverTooltip";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import IconsComponent from "./IconsComponent";
 
 export default function Result({
   result,
   providers,
+  highlight = true,
 }: {
   result: FinalResult;
   providers: ProviderInfo[];
+  highlight?: boolean;
 }) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [titlePopup, setTitlePopup] = useState<boolean>(false);
@@ -30,35 +33,8 @@ export default function Result({
     if (mustTruncate) setTitlePopup(true);
   });
 
-  const dlIcons = (
-    <div className="flex items-center h-full">
-      {(provider.possibleDownloadTypes ?? []).map((t, index) => {
-        switch (t) {
-          case "direct":
-            return (
-              <HoverTooltip key={index} tooltipText="Direct download">
-                <DownloadIcon cn="inline-block ml-0 size-5 ml-1" />
-              </HoverTooltip>
-            );
-          case "torrent":
-            return (
-              <HoverTooltip key={index} tooltipText="Torrent">
-                <TorrentIcon cn="inline-block size-5 ml-1" />
-              </HoverTooltip>
-            );
-          default:
-            return null;
-        }
-      })}
-    </div>
-  );
-
-  const iconsComponent = (
-    <div className="flex items-center justify-center h-full">{dlIcons}</div>
-  );
-
   return (
-    <div className="card bg-base-300 shadow-xl hover:shadow-2xl transition-shadow duration-300 mt-4 first:mt-2">
+    <div className="card transition-shadow bg-base-300 shadow-xl hover:shadow-2xl duration-300 mt-4 first:mt-2">
       <div className="card-body flex flex-row items-center">
         {/* icon */}
         {result.icon && (
@@ -71,7 +47,12 @@ export default function Result({
         <div
           className={clsx("flex-grow max-w-[calc(100%-10rem)]", { truncate: titlePopup })}
         >
-          <h2 className="card-title text-2xl font-bold text-primary" ref={titleRef}>
+          <h2
+            className={clsx("card-title text-2xl font-bold", {
+              "text-primary": highlight,
+            })}
+            ref={titleRef}
+          >
             {titlePopup ? (
               <HoverTooltip
                 tooltipText={
@@ -83,12 +64,12 @@ export default function Result({
                 {fixedTitle}
               </HoverTooltip>
             ) : (
-              <span className="">{fixedTitle}</span>
+              <span>{fixedTitle}</span>
             )}
           </h2>
           <p className="text-sm text-base-content opacity-70">
-            <div className="flex flex-row space-x-2">
-              {new URL(result.link).host} {iconsComponent}
+            <div className="flex items-center flex-row space-x-2">
+              {new URL(result.link).host} <IconsComponent provider={provider} />
             </div>
           </p>
         </div>
@@ -96,7 +77,12 @@ export default function Result({
         {/* button */}
         <div className="card-actions justify-end">
           <a href={result.link} target="_blank" rel="noopener noreferrer">
-            <button className="btn btn-primary w-[8.735rem]">
+            <button
+              className={clsx("btn w-[8.735rem]", {
+                "btn-primary": highlight,
+                "btn-outline": !highlight,
+              })}
+            >
               {provider.action} {icons[provider.action]}
             </button>
           </a>
