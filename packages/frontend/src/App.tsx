@@ -97,7 +97,7 @@ function App() {
   return (
     <>
       <div className="p-4 flex justify-center">
-        <div className="max-w-[1024px] w-full min-h-[calc(100vh-2rem)] bg-base-200 rounded-2xl p-2">
+        <div className="max-w-[1024px] w-full min-h-[calc(100vh-2rem)] bg-base-200 rounded-2xl p-2 mb-12">
           <SearchBar query={query} setQuery={setQuery} />
           <ProviderSelector
             providers={providers}
