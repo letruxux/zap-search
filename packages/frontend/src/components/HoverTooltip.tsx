@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from "react";
 
 interface HoverTooltipProps {
-  tooltipText: string;
+  tooltipText: string | ReactNode;
   children: ReactNode;
 }
 
@@ -31,7 +31,7 @@ const HoverTooltip: React.FC<HoverTooltipProps> = ({ tooltipText, children }) =>
       {children}
       {isHovering && (
         <div
-          className="fixed bg-black bg-opacity-90 text-white px-2.5 py-1.5 rounded z-50"
+          className="fixed flex justify-center bg-black bg-opacity-90 text-white px-2.5 py-1.5 rounded-lg z-50 break-normal"
           style={{
             left: mousePosition.x + 10,
             top: mousePosition.y + 10,

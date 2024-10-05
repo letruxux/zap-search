@@ -2,6 +2,8 @@ import { FinalResult, ProviderInfo } from "shared/defs";
 import { DownloadIcon, icons, TorrentIcon } from "../icons";
 import ImageWithPopup from "./Image";
 import HoverTooltip from "./HoverTooltip";
+import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
 
 export default function Result({
   result,
@@ -10,7 +12,23 @@ export default function Result({
   result: FinalResult;
   providers: ProviderInfo[];
 }) {
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [titlePopup, setTitlePopup] = useState<boolean>(false);
+
+  const fixedTitle =
+    result.title
+      .replace(/^\.+\s*/, "") // Remove leading dots and spaces
+      .replace(/(\([^)]*$|\[[^\]]*$|{[^}]*$)/g, (match) => {
+        const closingChar = match[0] === "(" ? ")" : match[0] === "[" ? "]" : "}";
+        return match + closingChar;
+      }) + (result.title.startsWith(".") ? "..." : ""); // Add ellipsis if original title started with dots
+
   const provider = providers.find((p) => p.id === result.provider)!;
+
+  useEffect(() => {
+    const mustTruncate = (titleRef.current?.offsetHeight ?? 0) > 32;
+    if (mustTruncate) setTitlePopup(true);
+  });
 
   const dlIcons = (
     <div className="flex items-center h-full">
@@ -50,9 +68,25 @@ export default function Result({
         )}
 
         {/* title */}
-        <div className="flex-grow">
-          <h2 className="card-title text-2xl font-bold text-primary">{result.title}</h2>
-          <p className="text-sm text-base-content opacity-70 truncate">
+        <div
+          className={clsx("flex-grow max-w-[calc(100%-10rem)]", { truncate: titlePopup })}
+        >
+          <h2 className="card-title text-2xl font-bold text-primary" ref={titleRef}>
+            {titlePopup ? (
+              <HoverTooltip
+                tooltipText={
+                  <span className="font-normal break-normal text-base">
+                    {result.title}
+                  </span>
+                }
+              >
+                {fixedTitle}
+              </HoverTooltip>
+            ) : (
+              <span className="">{fixedTitle}</span>
+            )}
+          </h2>
+          <p className="text-sm text-base-content opacity-70">
             <div className="flex flex-row space-x-2">
               {new URL(result.link).host} {iconsComponent}
             </div>
