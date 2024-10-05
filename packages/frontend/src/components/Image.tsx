@@ -25,7 +25,7 @@ const ImageWithPopup: React.FC<ImageWithPopupProps> = ({ src, alt = "Image" }) =
       {/* Skeleton Loader */}
       {!isLoaded && (
         <div
-          className="bg-base-100 animate-pulse size-16"
+          className="bg-base-100 animate-pulse size-16 rounded-lg"
           style={{ height: "4rem", width: "auto" }}
         ></div>
       )}
@@ -34,7 +34,7 @@ const ImageWithPopup: React.FC<ImageWithPopupProps> = ({ src, alt = "Image" }) =
       <img
         src={src}
         alt={alt}
-        className={clsx(`size-16 transition-opacity opacity-0`, {
+        className={clsx("size-16 transition-opacity opacity-0 rounded", {
           "opacity-100": isLoaded,
         })}
         onLoad={handleImageLoaded}
@@ -43,7 +43,7 @@ const ImageWithPopup: React.FC<ImageWithPopupProps> = ({ src, alt = "Image" }) =
       {/* Popup Image on Hover */}
       <div
         className={clsx(
-          "fixed z-50 bg-base-100 rounded-sm shadow-lg w-[50vh]",
+          "fixed z-50 bg-base-100 rounded shadow-lg w-[50vh]",
           "transition-all duration-300 ease-in-out",
           "left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%]",
           {
