@@ -24,10 +24,13 @@ export async function fetchResults(query: string): Promise<BaseResult[]> {
       result.title.length > 1 &&
       result.title.trim() !== "DODI Repacks"
     ) {
-      const title = result.title
+      const _title = result.title
         .trim()
         .replace(/^\d+\s*-\s*/, "")
         .trim();
+      const title = _title.endsWith("- DODI Repacks")
+        ? _title.slice(0, -16).trim()
+        : _title;
       const link = result.link;
       const icon = undefined;
       const data: BaseResult = {
