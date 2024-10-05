@@ -15,7 +15,7 @@ export function generateUrl({ query }: { query: string }) {
   return urlString;
 }
 
-async function mainSearch(url: string): Promise<BaseResult[] | null> {
+async function scrapeSearch(url: string): Promise<BaseResult[] | null> {
   try {
     const page = await fetchPage(url);
     const $ = cheerio.load(page);
@@ -49,7 +49,7 @@ async function mainSearch(url: string): Promise<BaseResult[] | null> {
   }
 }
 
-async function secondaryGoogleSearch(ogQuery: string): Promise<BaseResult[]> {
+async function engineSearch(ogQuery: string): Promise<BaseResult[]> {
   const query = `site:${new URL(baseUrl).hostname} ${ogQuery}`;
   const queryResult = await webSearch(query);
 
@@ -78,21 +78,20 @@ async function secondaryGoogleSearch(ogQuery: string): Promise<BaseResult[]> {
 }
 
 export async function fetchResults(url: string): Promise<BaseResult[]> {
-  const main = await mainSearch(url);
-
-  if (main) {
-    return main;
-  }
-
-  /* use google query instead */
   const query = new URL(url).searchParams.get("s");
+
   if (!query) {
-    throw new Error("Search failed, fallback method failed as well.");
+    throw new Error("Search failed, invalid query passed.");
   }
 
-  const googleResults = await secondaryGoogleSearch(query);
+  const webResults = await engineSearch(query);
+  if (webResults) {
+    return webResults;
+  }
 
-  return googleResults;
+  const scrapedResults = await scrapeSearch(url);
+
+  return scrapedResults;
 }
 
 export default {

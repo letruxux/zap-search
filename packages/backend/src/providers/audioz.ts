@@ -11,7 +11,7 @@ export function generateUrl({ query }: { query: string }) {
 }
 
 export async function fetchResults(query: string): Promise<BaseResult[]> {
-  const dataResults: BaseResult[] = await webSearch(query);
+  const dataResults: BaseResult[] = await webSearch(query, "ddg");
 
   return dataResults
     .filter((e) => {
