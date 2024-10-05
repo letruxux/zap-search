@@ -111,10 +111,10 @@ export function relevanceSortResults(query: string, items: BaseResult[]): BaseRe
   return rankedIndex;
 }
 
-/** tries google firsrt, then duckduck and returns the first result */
+/** tries to search with google-sr and duckduckgo, returns the first result */
 export async function webSearch(
   query: string,
-  prioritize?: "goog" | "ddg"
+  prioritize: "goog" | "ddg" = "goog"
 ): Promise<BaseResult[]> {
   const searchFunctions =
     prioritize === "ddg" ? [ddgSearch, googSearch] : [googSearch, ddgSearch];
