@@ -1,6 +1,7 @@
 import { FinalResult, ProviderInfo } from "shared/defs";
 import { DownloadIcon, icons, TorrentIcon } from "../icons";
 import ImageWithPopup from "./Image";
+import HoverTooltip from "./HoverTooltip";
 
 export default function Result({
   result,
@@ -16,9 +17,17 @@ export default function Result({
       {(provider.possibleDownloadTypes ?? []).map((t, index) => {
         switch (t) {
           case "direct":
-            return <DownloadIcon key={index} cn="inline-block ml-0 size-5 ml-1" />;
+            return (
+              <HoverTooltip tooltipText="Direct download">
+                <DownloadIcon key={index} cn="inline-block ml-0 size-5 ml-1" />
+              </HoverTooltip>
+            );
           case "torrent":
-            return <TorrentIcon key={index} cn="inline-block size-5 ml-1" />;
+            return (
+              <HoverTooltip key={index} tooltipText="Torrent">
+                <TorrentIcon cn="inline-block size-5 ml-1" />
+              </HoverTooltip>
+            );
           default:
             return null;
         }
