@@ -11,7 +11,6 @@ function generateUrl({ query }: { query: string }) {
   urlObj.searchParams.set("q", query);
 
   const urlString = urlObj.toString();
-  console.log(`Generated URL: ${urlString}`);
   return urlString;
 }
 

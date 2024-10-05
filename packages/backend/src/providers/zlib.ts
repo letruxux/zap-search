@@ -8,7 +8,6 @@ const baseUrl = "https://z-lib.gd";
 export function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}/s/${query}`;
 
-  console.log(`Generated URL: ${urlString}`);
   return urlString;
 }
 

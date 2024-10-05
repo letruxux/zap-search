@@ -8,7 +8,6 @@ export function generateUrl({ query }: { query: string }) {
     query
   )}&in_dev_filter=none&sort_by=last_update_desc`;
 
-  console.log(`Generated URL: ${urlString}`);
   return urlString;
 }
 

@@ -6,7 +6,6 @@ const baseUrl = "https://audioz.download";
 
 export function generateUrl({ query }: { query: string }) {
   const urlString = `site:${baseUrl} ${query}`;
-  console.log(`Generated URL: ${urlString}`);
   return urlString;
 }
 

@@ -7,7 +7,6 @@ const baseUrl = "https://annas-archive.org";
 export function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}/search?q=${encodeURIComponent(query!)}`;
 
-  console.log(`Generated URL: ${urlString}`);
   return urlString;
 }
 
