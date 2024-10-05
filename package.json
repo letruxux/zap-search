@@ -20,6 +20,8 @@
     "jszip": "^3.10.1"
   },
   "dependencies": {
-    "duck-duck-scrape": "^2.2.5"
+    "duck-duck-scrape": "^2.2.5",
+    "fuzzysort": "^3.0.2",
+    "string-similarity": "^4.0.4"
   }
 }

@@ -3,6 +3,8 @@ import type { GenerateUrlOptions, ProviderExports } from "shared/defs";
 import ky, { HTTPError, type Options } from "ky";
 import { search as ddgSearchFunc } from "duck-duck-scrape";
 import { search as googSearchFunc, OrganicResult } from "google-sr";
+import { compareTwoStrings } from "string-similarity";
+import fuzzysort from "fuzzysort";
 
 export async function fetchPage(url: string, config?: Options) {
   try {
@@ -74,18 +76,33 @@ export function relevanceSortResults(query: string, items: BaseResult[]): BaseRe
       const cleanedName = cleanString(entry.title);
       const cleanedKeywords = entryKeywords.map(cleanString);
 
+      if (cleanedName === cleanedQuery) {
+        points += 5; // Give more points for exact matches
+      }
+
       if (cleanedName.includes(cleanedQuery)) {
         points += 2;
       }
 
-      queryKeywords.forEach((keyword) => {
-        if (cleanedName.includes(keyword)) {
-          points += 1;
+      queryKeywords.forEach((keyword, index) => {
+        const position = cleanedName.indexOf(keyword);
+        if (position !== -1) {
+          points += 1 + (queryKeywords.length - index) / queryKeywords.length;
         }
         if (cleanedKeywords.some((k) => k.includes(keyword))) {
           points += 1;
         }
       });
+
+      const titleSimilarity = compareTwoStrings(cleanedQuery, cleanedName);
+      points += titleSimilarity * 3;
+
+      points += 1 / (1 + Math.abs(cleanedName.length - cleanedQuery.length));
+
+      const fuzzyResult = fuzzysort.single(cleanedQuery, cleanedName);
+      if (fuzzyResult) {
+        points += (fuzzyResult.score + 1000) / 1000;
+      }
 
       return { ...entry, points };
     })
@@ -93,6 +110,7 @@ export function relevanceSortResults(query: string, items: BaseResult[]): BaseRe
 
   return rankedIndex;
 }
+
 /** tries google firsrt, then duckduck and returns the first result */
 export async function webSearch(query: string) {
   const [googResult, googErr] = await safePromise(
