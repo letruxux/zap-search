@@ -1,4 +1,4 @@
-import BaseResult, { type ProviderInfo } from "shared/defs";
+import { ProviderExports, type ProviderInfo } from "shared/defs";
 import search, { relevanceSortResults } from "./utils";
 import allProviders from "./providers";
 
@@ -12,12 +12,44 @@ const app = new Hono();
 const port = 5180;
 const distFolderPath = "./dist";
 
+const distFolder = Bun.file(distFolderPath);
+if (!distFolder.exists()) {
+  throw new Error(
+    `"${distFolderPath}" folder not found. Make sure you haven\'t moved the dist folder or the executable.`
+  );
+}
+
+/* helper function to get results from instance */
+async function getResults(
+  providerInstance: ProviderExports,
+  query: string,
+  onError: (e: Error) => void
+) {
+  const resultsPromise = search(providerInstance, { query })
+    .then((r) => {
+      return r.map((e) => ({
+        ...e,
+        provider: providerInstance.id,
+      }));
+    })
+    .catch((e) => {
+      onError(e);
+      return [];
+    });
+
+  return await resultsPromise;
+}
+
 app.use("/api/*", cors());
 
 app.get("/api/search", async (c) => {
   try {
     const queryParams = c.req.query();
     const { provider, query } = queryParams;
+
+    if (!query || !provider) {
+      return c.status(400);
+    }
 
     const providerIds = provider.split(",");
     const providerInstances = allProviders.filter((p) => providerIds.includes(p.id));
@@ -28,25 +60,12 @@ app.get("/api/search", async (c) => {
 
     const errors: Error[] = [];
 
-    const searchPromises = providerInstances.map(async (providerInstance) => {
-      try {
-        const results2 = await search(providerInstance, {
-          query,
-        });
-        return results2.map((e) => {
-          return {
-            ...e,
-            provider: providerInstance.id,
-          };
-        });
-      } catch (e) {
-        console.error(e);
-        errors.push(e);
-        return [];
-      }
-    });
+    const searchPromises = providerInstances.map((pr) =>
+      getResults(pr, query, errors.push)
+    );
 
-    const results = (await Promise.all(searchPromises)).flat();
+    const unflattenedResults = (await Promise.all(searchPromises)).flat();
+    const results = relevanceSortResults(query, unflattenedResults);
     console.log(results.length, "total results found");
 
     /* if theres only 1 provider, return the error */
@@ -54,9 +73,11 @@ app.get("/api/search", async (c) => {
       throw errors[0];
     }
 
+    const errorsText = errors.length > 0 ? errors.map((e) => e.message).join("\n") : null;
+
     return c.json({
-      error: errors.length > 0 ? errors.map((e) => e.message).join("\n") : null,
-      data: relevanceSortResults(query, results),
+      error: errorsText,
+      data: results,
     });
   } catch (e) {
     console.error(e);
@@ -69,17 +90,13 @@ app.get("/api/search", async (c) => {
 
 app.get("/api/providers", async (c) => {
   const data = allProviders.map((provider) => {
-    const { name, id, action, category, baseUrl, notice, possibleDownloadTypes } =
-      provider;
-    return {
-      name,
-      id,
-      action,
-      category,
-      baseUrl,
-      notice,
-      possibleDownloadTypes,
-    } as ProviderInfo;
+    /* remove functions to fit ProviderInfo */
+    return Object.entries(provider).reduce((acc, [key, value]) => {
+      if (typeof value !== "function") {
+        acc[key] = value;
+      }
+      return acc;
+    }, {} as ProviderInfo);
   });
 
   return c.json(data);
@@ -107,13 +124,6 @@ app.use(
     },
   })
 );
-
-const distFolder = Bun.file(distFolderPath);
-if (!distFolder.exists()) {
-  throw new Error(
-    `"${distFolderPath}" folder not found. Make sure you haven\'t moved the dist folder or the executable.`
-  );
-}
 
 console.log(`CTRL + click on the link below to open the app in your browser.`);
 console.log(`http://localhost:5180 OR http://localhost:5173`);
