@@ -1,6 +1,6 @@
 # zap search
 
-zap search is a simple search engine that allows you to search for games, software and other miscellaneous content easily with a web interface.
+zap search is a simple search engine built in [bun](https://bun.sh/docs/installation) that allows you to search for games, software and other miscellaneous content easily with a web interface.
 
 ## Run in development
 
