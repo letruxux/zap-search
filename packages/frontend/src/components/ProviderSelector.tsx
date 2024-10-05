@@ -66,7 +66,7 @@ const ProviderSelector: React.FC<ProviderSelectorProps> = ({
             >
               <span>
                 {emojis[category as Category]} {category}{" "}
-                <span className="text-gray-600 text-sm">
+                <span className="text-gray-600 text-sm focus:bg-transparent">
                   {!expandedCategories[category as Category] && "(collapsed)"}
                 </span>
               </span>
