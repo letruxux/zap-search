@@ -2,13 +2,6 @@ import { FinalResult, ProviderInfo } from "shared/defs";
 import { DownloadIcon, icons, TorrentIcon } from "../icons";
 import ImageWithPopup from "./Image";
 
-function titleCase(str: string) {
-  return str.replace(
-    /\w\S*/g,
-    (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
-  );
-}
-
 export default function Result({
   result,
   providers,
