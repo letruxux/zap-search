@@ -3,6 +3,8 @@ only releasing the exe because:
 macos is not a priority rn
 if you're using linux you probably don't need this, also not a priority rn */
 
+/* logging made with ai (sowwy) */
+
 import fs from "fs";
 import path from "path";
 import JSZip from "jszip";
@@ -46,6 +48,11 @@ async function main() {
   fs.writeFileSync("dist.zip", zipContent);
 
   console.log("Zip file created successfully.");
+
+  console.log("Removing dist folder and exe...");
+  fs.rmSync("./packages/backend/dist", { recursive: true, force: true });
+  fs.rmSync("./packages/backend/server.exe", { force: true });
+  console.log("dist folder and exe removed.");
 }
 
 function addDirectoryToZip(zip: JSZip, folderPath: string, zipPath: string) {
