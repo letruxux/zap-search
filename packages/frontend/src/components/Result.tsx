@@ -18,8 +18,8 @@ export default function Result({
         switch (t) {
           case "direct":
             return (
-              <HoverTooltip tooltipText="Direct download">
-                <DownloadIcon key={index} cn="inline-block ml-0 size-5 ml-1" />
+              <HoverTooltip key={index} tooltipText="Direct download">
+                <DownloadIcon cn="inline-block ml-0 size-5 ml-1" />
               </HoverTooltip>
             );
           case "torrent":
