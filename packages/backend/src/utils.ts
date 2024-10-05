@@ -112,28 +112,41 @@ export function relevanceSortResults(query: string, items: BaseResult[]): BaseRe
 }
 
 /** tries google firsrt, then duckduck and returns the first result */
-export async function webSearch(query: string) {
+export async function webSearch(
+  query: string,
+  prioritize?: "goog" | "ddg"
+): Promise<BaseResult[]> {
+  const searchFunctions =
+    prioritize === "ddg" ? [ddgSearch, googSearch] : [googSearch, ddgSearch];
+
+  for (const searchFunc of searchFunctions) {
+    const [result, err] = await safePromise(searchFunc(query));
+    if (!err && result) {
+      return result;
+    }
+  }
+
+  throw new Error("Neither search engines succeeded.");
+}
+
+async function googSearch(query: string): Promise<BaseResult[]> {
   const [googResult, googErr] = await safePromise(
     googSearchFunc({ query, resultTypes: [OrganicResult] })
   );
   if (!googErr && googResult) {
-    const resList = googResult
+    return googResult
       .filter((e) => e.link && e.title && e.type === "ORGANIC")
-      .map((e) => {
-        return { link: e.link.trim(), title: e.title.trim() } as BaseResult;
-      });
-    return resList;
+      .map((e) => ({ link: e.link.trim(), title: e.title.trim() }));
   }
+  return [];
+}
 
+async function ddgSearch(query: string): Promise<BaseResult[]> {
   const [ddgResult, ddgErr] = await safePromise(ddgSearchFunc(query, { safeSearch: -2 }));
   if (!ddgErr && ddgResult) {
-    const resList = ddgResult.results.map((e) => {
-      return { link: e.url.trim(), title: e.title.trim() } as BaseResult;
-    });
-    return resList;
+    return ddgResult.results.map((e) => ({ link: e.url.trim(), title: e.title.trim() }));
   }
-
-  throw new Error("Neither search engines succeeded.");
+  return [];
 }
 
 /**
