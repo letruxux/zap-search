@@ -1,5 +1,5 @@
 import { FinalResult, ProviderInfo } from "shared/defs";
-import { DownloadIcon, icons, TorrentIcon } from "../icons";
+import { icons } from "../icons";
 import ImageWithPopup from "./Image";
 import HoverTooltip from "./HoverTooltip";
 import { useEffect, useRef, useState } from "react";
