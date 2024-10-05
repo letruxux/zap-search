@@ -7,6 +7,7 @@ export default interface BaseResult {
 
 export type FinalResult = BaseResult & {
   provider: string;
+  points: number;
 };
 
 /** options when generating url / query */
