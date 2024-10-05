@@ -61,13 +61,13 @@ const ProviderSelector: React.FC<ProviderSelectorProps> = ({
         {Object.entries(groupedProviders).map(([category, categoryProviders]) => (
           <React.Fragment key={category}>
             <li
-              className="menu-title text-base-content cursor-pointer hover:bg-base-200"
+              className="menu-title text-base-content cursor-pointer hover:bg-base-200 pl-2 rounded-lg"
               onClick={() => toggleCategory(category as Category)}
             >
               <span>
                 {emojis[category as Category]} {category}{" "}
                 <span className="text-gray-600 text-sm">
-                  {!expandedCategories[category as Category] && "(hidden)"}
+                  {!expandedCategories[category as Category] && "(collapsed)"}
                 </span>
               </span>
             </li>
