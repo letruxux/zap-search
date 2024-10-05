@@ -21,7 +21,6 @@ bun run start:all
 ### Build
 
 ```bash
-bun install
 docker build -t zap .
 ```
 
