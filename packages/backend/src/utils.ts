@@ -46,8 +46,7 @@ export default async function search(
   try {
     if (provider.fetchResults) {
       data = await provider.fetchResults(url);
-    }
-    if (provider.parsePage) {
+    } else if (provider.parsePage) {
       const html = await fetchPage(url);
       data = provider.parsePage(html);
     }
