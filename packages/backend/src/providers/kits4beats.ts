@@ -55,6 +55,7 @@ export default {
   id: "kits4beats",
   name: "Kits4Beats",
   category: "Producing",
+  possibleDownloadTypes: ["direct"],
 
   parsePage,
   generateUrl,

@@ -42,6 +42,7 @@ export default {
   id: "zlib",
   name: "ZLibrary",
   category: "Reading",
+  possibleDownloadTypes: ["direct"],
 
   parsePage,
   generateUrl,

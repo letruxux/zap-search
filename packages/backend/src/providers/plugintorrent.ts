@@ -50,6 +50,7 @@ export default {
   id: "plugintorrent",
   name: "PluginTorrent",
   category: "Producing",
+  possibleDownloadTypes: ["torrent"],
 
   parsePage,
   generateUrl,

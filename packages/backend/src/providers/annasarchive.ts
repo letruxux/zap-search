@@ -41,6 +41,7 @@ export default {
   id: "annasarchive",
   name: "Anna's Archive",
   category: "Reading",
+  possibleDownloadTypes: ["direct"],
 
   parsePage,
   generateUrl,

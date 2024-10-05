@@ -48,6 +48,7 @@ export default {
   id: "dodi",
   name: "Dodi Repacks",
   category: "Games",
+  possibleDownloadTypes: ["direct", "torrent"],
 
   fetchResults,
   generateUrl,

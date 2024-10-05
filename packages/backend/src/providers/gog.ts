@@ -41,6 +41,7 @@ export default {
   id: "goggames",
   name: "GOG Games",
   category: "Games",
+  possibleDownloadTypes: ["direct"],
 
   parsePage,
   generateUrl,

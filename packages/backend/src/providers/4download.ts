@@ -63,6 +63,7 @@ export default {
   id: "4download",
   name: "4Download",
   category: "Producing",
+  possibleDownloadTypes: ["direct"],
 
   fetchResults,
   generateUrl,

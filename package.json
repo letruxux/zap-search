@@ -22,6 +22,7 @@
   "dependencies": {
     "duck-duck-scrape": "^2.2.5",
     "fuzzysort": "^3.0.2",
-    "string-similarity": "^4.0.4"
+    "string-similarity": "^4.0.4",
+    "tailwind-merge": "^2.5.3"
   }
 }

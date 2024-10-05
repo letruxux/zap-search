@@ -42,6 +42,7 @@ export default {
   id: "cracksurl",
   name: "CRACKSurl",
   category: "Software",
+  possibleDownloadTypes: ["direct", "torrent"],
 
   parsePage,
   generateUrl,

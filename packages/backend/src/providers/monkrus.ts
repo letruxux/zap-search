@@ -47,6 +47,7 @@ export default {
   notice: "(Russian - Adobe / Autodesk)",
   defaultDownloadType: "torrent",
   category: "Software",
+  possibleDownloadTypes: ["torrent"],
 
   generateUrl,
   parsePage,

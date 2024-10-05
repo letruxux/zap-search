@@ -45,6 +45,7 @@ export default {
   id: "audioz",
   name: "Audioz",
   category: "Producing",
+  possibleDownloadTypes: ["direct"],
 
   fetchResults,
   generateUrl,

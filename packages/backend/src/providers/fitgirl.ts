@@ -60,6 +60,7 @@ export default {
   id: "fitgirl",
   name: "Fitgirl Repacks",
   category: "Games",
+  possibleDownloadTypes: ["direct", "torrent"],
 
   parsePage,
   generateUrl,

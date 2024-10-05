@@ -1,16 +1,15 @@
-import type BaseResult from "shared/defs";
 import Result from "./Result";
-import { Action } from "shared/defs";
+import { FinalResult, ProviderInfo } from "shared/defs";
 
 interface ResultsListProps {
-  searchResults: BaseResult[];
-  providerAction: Action;
+  searchResults: FinalResult[];
+  providers: ProviderInfo[];
 }
 
-const ResultsList: React.FC<ResultsListProps> = ({ searchResults, providerAction }) => (
+const ResultsList: React.FC<ResultsListProps> = ({ searchResults, providers }) => (
   <div>
     {searchResults.map((result) => (
-      <Result key={result.link} result={result} providerAction={providerAction} />
+      <Result key={result.link} result={result} providers={providers} />
     ))}
   </div>
 );

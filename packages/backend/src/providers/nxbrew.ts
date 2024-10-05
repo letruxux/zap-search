@@ -46,6 +46,7 @@ export default {
   id: "nxbrew",
   name: "Nxbrew",
   category: "ROMs",
+  possibleDownloadTypes: ["direct", "torrent"],
 
   parsePage,
   generateUrl,

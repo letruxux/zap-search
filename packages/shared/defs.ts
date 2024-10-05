@@ -5,6 +5,10 @@ export default interface BaseResult {
   icon?: string;
 }
 
+export type FinalResult = BaseResult & {
+  provider: string;
+};
+
 /** options when generating url / query */
 export interface GenerateUrlOptions {
   query: string;
@@ -14,7 +18,7 @@ export interface GenerateUrlOptions {
 export type Action = "Download" | "Watch" | "Read";
 
 /** type of download a provider can do, unused rn */
-export type DownloadType = "torrent" | "direct" | "magnet";
+export type DownloadType = "torrent" | "direct";
 
 /** emojis for various categories */
 export const emojis: Record<Category, string> = {
@@ -37,6 +41,7 @@ export interface ProviderInfo {
   category: Category;
   baseUrl: string;
   notice?: string;
+  possibleDownloadTypes?: DownloadType[];
 }
 
 export interface RawProviderExports {

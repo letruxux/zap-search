@@ -101,6 +101,7 @@ export default {
   id: "steamrip",
   name: "SteamRIP",
   category: "Games",
+  possibleDownloadTypes: ["direct"],
 
   fetchResults,
   generateUrl,

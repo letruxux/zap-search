@@ -33,7 +33,12 @@ app.get("/api/search", async (c) => {
         const results2 = await search(providerInstance, {
           query,
         });
-        return results2;
+        return results2.map((e) => {
+          return {
+            ...e,
+            provider: providerInstance.id,
+          };
+        });
       } catch (e) {
         console.error(e);
         errors.push(e);
@@ -64,7 +69,8 @@ app.get("/api/search", async (c) => {
 
 app.get("/api/providers", async (c) => {
   const data = allProviders.map((provider) => {
-    const { name, id, action, category, baseUrl, notice } = provider;
+    const { name, id, action, category, baseUrl, notice, possibleDownloadTypes } =
+      provider;
     return {
       name,
       id,
@@ -72,6 +78,7 @@ app.get("/api/providers", async (c) => {
       category,
       baseUrl,
       notice,
+      possibleDownloadTypes,
     } as ProviderInfo;
   });
 

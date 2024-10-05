@@ -48,6 +48,7 @@ export default {
   id: "ziperto",
   name: "Ziperto",
   category: "ROMs",
+  possibleDownloadTypes: ["direct"],
 
   generateUrl,
   parsePage,

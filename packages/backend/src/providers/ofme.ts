@@ -25,7 +25,7 @@ export function parsePage(page: string): BaseResult[] {
     try {
       const title = $(el).find("h2.title").text().trim().slice(0, -8);
       const link = $(el).find(".image a").attr("href")!.trim();
-      const icon = $(el).find("img.lazyload").attr("data-src")!;
+      const icon = undefined; //$(el).find("img.lazyload").attr("data-src")!;
 
       dataResults.push({
         title,
@@ -47,6 +47,7 @@ export default {
   id: "ofme",
   name: "Online Fix",
   category: "Games",
+  possibleDownloadTypes: ["direct", "torrent"],
 
   parsePage,
   generateUrl,

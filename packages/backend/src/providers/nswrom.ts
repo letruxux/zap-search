@@ -46,6 +46,7 @@ export default {
   id: "nswrom",
   name: "Nswrom",
   category: "ROMs",
+  possibleDownloadTypes: ["direct", "torrent"],
 
   parsePage,
   generateUrl,

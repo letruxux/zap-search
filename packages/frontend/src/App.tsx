@@ -1,8 +1,7 @@
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 
-import type { ProviderInfo } from "shared/defs";
-import type BaseResult from "shared/defs";
+import type { FinalResult, ProviderInfo } from "shared/defs";
 
 import AdblockNotice from "./components/AdblockNotice";
 import Loader from "./components/Loader";
@@ -19,7 +18,7 @@ function App() {
   const [query, setQuery] = useState<string>("");
   const [selectedProviders, setSelectedProviders] = useState<ProviderInfo[]>([]);
   const [providers, setProviders] = useState<ProviderInfo[]>([]);
-  const [searchResults, setSearchResults] = useState<BaseResult[]>([]);
+  const [searchResults, setSearchResults] = useState<FinalResult[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleProviderChange = (provider: ProviderInfo) => {
@@ -118,10 +117,7 @@ function App() {
               Found <span className="font-bold">{searchResults.length}</span> results.
             </div>
           )}
-          <ResultsList
-            searchResults={searchResults}
-            providerAction={selectedProviders[0]?.action || "Download"}
-          />
+          <ResultsList searchResults={searchResults} providers={providers} />
         </div>
         <FloatingFooter />
       </div>

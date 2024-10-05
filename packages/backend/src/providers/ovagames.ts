@@ -46,6 +46,7 @@ export default {
   id: "ovagames",
   name: "Ova Games",
   category: "Games",
+  possibleDownloadTypes: ["direct"],
 
   parsePage,
   generateUrl,
