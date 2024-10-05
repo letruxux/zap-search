@@ -1,8 +1,8 @@
 import { Action } from "shared/defs";
-import { twMerge } from "tailwind-merge";
+import { ClassNameValue, twMerge } from "tailwind-merge";
 
 interface IconProps {
-  cn?: string;
+  cn?: ClassNameValue;
 }
 
 export function SearchIcon({ cn }: IconProps) {
