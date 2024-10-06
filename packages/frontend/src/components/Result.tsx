@@ -16,7 +16,7 @@ export default function Result({
   highlight?: boolean;
 }) {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const [titlePopup, setTitlePopup] = useState<boolean>(false);
+  const [truncateText, setTruncateText] = useState<boolean>(false);
 
   const fixedTitle =
     result.title
@@ -29,31 +29,41 @@ export default function Result({
   const provider = providers.find((p) => p.id === result.provider)!;
 
   useEffect(() => {
-    const mustTruncate = (titleRef.current?.offsetHeight ?? 0) > 32;
-    if (mustTruncate) setTitlePopup(true);
-  });
+    function updateTruncate() {
+      const mustTruncate = (titleRef.current?.clientHeight ?? 0) > 32;
+      console.log("Truncating", mustTruncate);
+      if (truncateText !== mustTruncate) setTruncateText(mustTruncate);
+    }
+
+    window.onresize = () => updateTruncate();
+
+    updateTruncate();
+  }, []);
 
   return (
     <div className="card transition-shadow bg-base-300 shadow-xl hover:shadow-2xl duration-300 mt-4 first:mt-2">
-      <div className="card-body flex flex-row items-center">
+      <div className="card-body flex flex-col sm:flex-row items-start sm:items-center">
         {/* icon */}
         {result.icon && (
-          <div className="h-16 mr-4">
-            <ImageWithPopup src={result.icon} alt={result.title} />
+          <div className="h-16 mb-4 w-auto sm:aspect-square sm:mb-0 sm:mr-4">
+            <ImageWithPopup
+              src={result.icon}
+              alt={result.title}
+              className="w-auto sm:w-16"
+            />
           </div>
         )}
 
-        {/* title */}
-        <div
-          className={clsx("flex-grow max-w-[calc(100%-10rem)]", { truncate: titlePopup })}
-        >
+        {/* title and info */}
+        <div className="flex-grow w-full sm:max-w-[calc(100%-10rem)]">
           <h2
-            className={clsx("card-title text-2xl font-bold", {
+            className={clsx("card-title text-xl sm:text-2xl font-bold break-words", {
               "text-primary": highlight,
+              truncate: truncateText,
             })}
             ref={titleRef}
           >
-            {titlePopup ? (
+            {truncateText ? (
               <HoverTooltip
                 tooltipText={
                   <span className="font-normal break-normal text-base">
@@ -67,7 +77,7 @@ export default function Result({
               <span>{fixedTitle}</span>
             )}
           </h2>
-          <p className="text-sm text-base-content opacity-70">
+          <p className="text-sm text-base-content opacity-70 mt-2">
             <div className="flex items-center flex-row space-x-2">
               {new URL(result.link).host} <IconsComponent provider={provider} />
             </div>
@@ -75,10 +85,15 @@ export default function Result({
         </div>
 
         {/* button */}
-        <div className="card-actions justify-end">
-          <a href={result.link} target="_blank" rel="noopener noreferrer">
+        <div className="card-actions justify-start sm:justify-end mt-4 sm:mt-0 w-full sm:w-auto">
+          <a
+            href={result.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto"
+          >
             <button
-              className={clsx("btn w-[8.735rem]", {
+              className={clsx("btn w-full sm:w-[8.735rem]", {
                 "btn-primary": highlight,
                 "btn-outline": !highlight,
               })}

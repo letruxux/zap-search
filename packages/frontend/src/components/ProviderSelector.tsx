@@ -48,11 +48,13 @@ const ProviderSelector: React.FC<ProviderSelectorProps> = ({
         tabIndex={0}
         className="btn w-full justify-between btn-bordered bg-base-100 border border-white border-opacity-10 hover:bg-base-100 hover:border-white hover:border-opacity-10 font-normal"
       >
-        {selectedProviders.length > 0
-          ? `(${selectedProviders.length}) ` +
-            selectedProviders.map((e) => e.name).join(", ")
-          : "Select providers"}
-        <span className="ml-2">▼</span>
+        <span className="max-w-[calc(100%-28px)] text-left">
+          {selectedProviders.length > 0
+            ? `(${selectedProviders.length}) ` +
+              selectedProviders.map((e) => e.name).join(", ")
+            : "Select providers"}
+        </span>
+        <span className="ml-2 w-3">▼</span>
       </label>
       <ul
         tabIndex={0}

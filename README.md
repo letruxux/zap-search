@@ -1,6 +1,13 @@
-# zap search
+<h1 style="text-align: center;">zap search</h1>
 
-zap search is a simple search engine built in [bun](https://bun.sh/docs/installation) that allows you to search for games, software and other miscellaneous content easily with a web interface.
+<p style="text-align: center;">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface.</p>
+
+# Run locally
+
+- Download the latest exe from the [releases](https://github.com/letruxux/zap-search/releases) page.
+- Extract the archive to a folder.
+- Run the executable.
+- Don't move the dist folder or the executable away: they must be in the same folder.
 
 ## Run in development
 
