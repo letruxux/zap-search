@@ -85,6 +85,8 @@ export default function Result({
         </div>
 
         {/* button */}
+        {/* fuck this button 
+        it gets offset when there is an image i cant fix it dawg im so mad */}
         <div className="card-actions justify-start sm:justify-end mt-4 sm:mt-0 w-full sm:w-auto">
           <a
             href={result.link}
