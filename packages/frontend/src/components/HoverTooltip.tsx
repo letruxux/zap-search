@@ -1,11 +1,17 @@
 import React, { useState, ReactNode } from "react";
+import { ClassNameValue, twMerge } from "tailwind-merge";
 
 interface HoverTooltipProps {
   tooltipText: string | ReactNode;
   children: ReactNode;
+  className?: ClassNameValue;
 }
 
-const HoverTooltip: React.FC<HoverTooltipProps> = ({ tooltipText, children }) => {
+const HoverTooltip: React.FC<HoverTooltipProps> = ({
+  tooltipText,
+  children,
+  className,
+}) => {
   const [isHovering, setIsHovering] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -31,7 +37,10 @@ const HoverTooltip: React.FC<HoverTooltipProps> = ({ tooltipText, children }) =>
       {children}
       {isHovering && (
         <div
-          className="fixed flex justify-center bg-black bg-opacity-90 text-white px-2.5 py-1.5 rounded-lg z-50 break-normal"
+          className={twMerge(
+            "fixed flex justify-center bg-black bg-opacity-90 text-white px-2.5 py-1.5 rounded-lg z-50 break-normal",
+            className
+          )}
           style={{
             left: mousePosition.x + 10,
             top: mousePosition.y + 10,
