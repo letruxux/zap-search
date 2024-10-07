@@ -47,9 +47,9 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1.1.0 # Updated version
+        uses: actions/create-release@v1.1.0
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Use your PAT here
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Use the default GitHub token
         with:
           tag_name: ${{ github.ref_name }}
           release_name: ${{ github.ref_name }}
@@ -62,9 +62,7 @@ jobs:
             - Windows build (dist.zip)
 
             ### Build Information
-            - Build Date: ${{ steps.current_time.outputs.time }}
             - Commit: ${{ github.sha }}
-            - Branch: ${{ github.ref }}
 
             ### Installation
             - Download the Zip
@@ -77,7 +75,9 @@ jobs:
             - For full changes, please refer to the commit history.
 
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1.0.2 # Updated version
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist.zip
