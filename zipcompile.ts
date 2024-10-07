@@ -8,11 +8,13 @@ import path from "path";
 import JSZip from "jszip";
 
 const compiledExe = Bun.file("./packages/backend/server.exe");
+const backendFolder = path.join("./packages", "backend");
+const backendDist = path.join(backendFolder, "dist");
 
 async function main() {
-  if (!fs.existsSync("./packages/backend/dist")) {
+  if (!fs.existsSync(backendDist)) {
     throw new Error(
-      `"./packages/backend/dist" folder not found. Make sure you haven\'t moved the dist folder or the executable.`
+      `${backendDist} folder not found. Make sure you haven\'t moved the dist folder or the executable.`
     );
   }
   if (!compiledExe.exists()) {
@@ -49,7 +51,7 @@ async function main() {
       }
     }
   }
-  addDirectoryToZip(zip, "./packages/backend/dist", "dist");
+  addDirectoryToZip(zip, backendDist, "dist");
 
   /* save zip file */
   const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
@@ -58,8 +60,8 @@ async function main() {
 
   /* remove built files */
   try {
-    fs.rmSync("./packages/backend/dist", { recursive: true, force: true });
-    fs.rmSync("./packages/backend/server.exe", { force: true });
+    fs.rmSync(backendDist, { recursive: true, force: true });
+    fs.rmSync(path.join(backendFolder, "server.exe"), { force: true });
   } catch {
     console.log("failed to remove built files");
   }
