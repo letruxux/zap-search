@@ -1,8 +1,6 @@
-<style>.center{text-align: center}</style>
+<h1 style="text-align: center;">🔎 zap search</h1>
 
-<h1 class="center">🔎 zap search</h1>
-
-<p class="center">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface. <br><br>🤔 Don't know where to start? Follow the <a href="#run-locally"><b>Run locally</b> guide</a>.</p>
+<p style="text-align: center;">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface. <br><br>🤔 Don't know where to start? Follow the <a href="#run-locally"><b>Run locally</b> guide</a>.</p>
 
 # Run locally
 
