@@ -43,15 +43,11 @@ export default async function search(
   let data: BaseResult[] = [];
 
   /* pass query */
-  try {
-    if (provider.fetchResults) {
-      data = await provider.fetchResults(url);
-    } else if (provider.parsePage) {
-      const html = await fetchPage(url);
-      data = provider.parsePage(html);
-    }
-  } catch (e) {
-    throw e;
+  if (provider.fetchResults) {
+    data = await provider.fetchResults(url);
+  } else if (provider.parsePage) {
+    const html = await fetchPage(url);
+    data = provider.parsePage(html);
   }
 
   if (data.length) {
