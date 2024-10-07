@@ -1,12 +1,12 @@
 import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
 
-const baseUrl = "https://www.gog-games.to/";
+const baseUrl = "https://www.gog-games.to";
 
 export function generateUrl({ query }: { query: string }) {
-  const urlString = `https://www.gog-games.to/search?page=1&search=${encodeURIComponent(
+  const urlString = `https://www.gog-games.to/search?page=1&in_dev_filter=none&sort_by=last_update_desc&search=${encodeURIComponent(
     query
-  )}&in_dev_filter=none&sort_by=last_update_desc`;
+  )}`;
 
   return urlString;
 }

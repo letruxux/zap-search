@@ -2,7 +2,7 @@ import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
 import { webSearch } from "../utils";
 
-const baseUrl = "https://dodi-repacks.site/";
+const baseUrl = "https://dodi-repacks.site";
 
 export function generateUrl({ query }: { query: string }) {
   return `site:${baseUrl} ${query}`;

@@ -5,13 +5,10 @@ import type { ProviderExports } from "shared/defs";
 const baseUrl = "https://online-fix.me/index.php";
 
 export function generateUrl({ query }: { query: string }) {
-  const urlObj = new URL(baseUrl);
+  const urlString = `${baseUrl}?do=search&subaction=search&s=${encodeURIComponent(
+    query
+  )}`;
 
-  urlObj.searchParams.set("do", "search");
-  urlObj.searchParams.set("subaction", "search");
-  urlObj.searchParams.set("story", query);
-
-  const urlString = urlObj.toString();
   return urlString;
 }
 

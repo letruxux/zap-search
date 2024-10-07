@@ -2,16 +2,11 @@ import * as cheerio from "cheerio";
 import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
 
-const baseUrl = "https://www.ovagames.com/";
+const baseUrl = "https://www.ovagames.com";
 
 export function generateUrl({ query }: { query: string }) {
-  const urlObj = new URL(baseUrl);
-  urlObj.searchParams.set("x", "0");
-  urlObj.searchParams.set("y", "0");
+  const urlString = `${baseUrl}?x=0&y=0&s=${encodeURIComponent(query)}`;
 
-  urlObj.searchParams.set("s", query);
-
-  const urlString = urlObj.toString();
   return urlString;
 }
 

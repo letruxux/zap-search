@@ -5,11 +5,8 @@ import type { ProviderExports } from "shared/defs";
 const baseUrl = "https://plugintorrent.com";
 
 export function generateUrl({ query }: { query: string }) {
-  const urlObj = new URL(baseUrl);
+  const urlString = `${baseUrl}?s=${encodeURIComponent(query)}`;
 
-  urlObj.searchParams.set("s", query);
-
-  const urlString = urlObj.toString();
   return urlString;
 }
 

@@ -2,15 +2,11 @@ import type { ProviderExports } from "shared/defs";
 import type BaseResult from "shared/defs";
 import * as cheerio from "cheerio";
 
-const baseUrl = "https://w14.monkrus.ws/";
+const baseUrl = "https://w14.monkrus.ws";
 
 function generateUrl({ query }: { query: string }) {
-  const urlObj = new URL(`${baseUrl}search`);
-  urlObj.searchParams.set("max-results", "50");
+  const urlString = `${baseUrl}/search?max-results=50&s=${encodeURIComponent(query)}`;
 
-  urlObj.searchParams.set("q", query);
-
-  const urlString = urlObj.toString();
   return urlString;
 }
 

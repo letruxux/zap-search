@@ -2,14 +2,11 @@ import type { ProviderExports } from "shared/defs";
 import type BaseResult from "shared/defs";
 import * as cheerio from "cheerio";
 
-const baseUrl = "https://www.ziperto.com/";
+const baseUrl = "https://www.ziperto.com";
 
 export function generateUrl({ query }: { query: string }) {
-  const urlObj = new URL(baseUrl);
+  const urlString = `${baseUrl}?s=${encodeURIComponent(query)}`;
 
-  urlObj.searchParams.set("s", query);
-
-  const urlString = urlObj.toString();
   return urlString;
 }
 

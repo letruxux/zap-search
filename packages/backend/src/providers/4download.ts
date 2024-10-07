@@ -6,12 +6,8 @@ import * as cheerio from "cheerio";
 const baseUrl = "https://4download.net";
 
 export function generateUrl({ query }: { query: string }) {
-  const urlObj = new URL(baseUrl);
+  const urlString = `${baseUrl}?do=search&s=${encodeURIComponent(query)}`;
 
-  urlObj.searchParams.set("do", "search");
-  urlObj.searchParams.set("s", query);
-
-  const urlString = urlObj.toString();
   return urlString;
 }
 
