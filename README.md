@@ -1,46 +1,24 @@
-<h1 style="text-align: center;">zap search</h1>
+<style>.center{text-align: center}</style>
 
-<p style="text-align: center;">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface.</p>
+<h1 class="center">🔎 zap search</h1>
+
+<p class="center">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface. <br><br>🤔 Don't know where to start? Follow the <a href="#run-locally"><b>Run locally</b> guide</a>.</p>
 
 # Run locally
 
-- Download the latest exe from the [releases](https://github.com/letruxux/zap-search/releases) page.
+- Download the latest zip from the [releases](https://github.com/letruxux/zap-search/releases) page.
 - Extract the archive to a folder.
 - Run the executable.
 - Don't move the dist folder or the executable away: they must be in the same folder.
 
-## Run in development
+## Need other ways to run this?
 
-### Build
-
-```bash
-bun install
-```
-
-### Run
-
-```bash
-bun run start:all
-```
-
-## Run with Docker
-
-### Build
-
-```bash
-docker build -t zap .
-```
-
-### Run
-
-```bash
-docker run -p PORT:5180 zap
-```
-
-## Contribute
-
-Want to contribute? Open an issue or a pull request.
+Check out the [run guide](RUN.md).
 
 ## Donate
 
 If you like this project, please consider [donating to the developer](https://ko-fi.com/letruxux).
+
+## Contribute
+
+Want to contribute? Open an issue or a pull request.
