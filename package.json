@@ -1,11 +1,10 @@
 {
   "name": "zap-search",
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "jszip": "^3.10.1"
+  },
   "private": true,
-  "workspaces": [
-    "packages/frontend",
-    "packages/backend",
-    "packages/shared"
-  ],
   "scripts": {
     "start:frontend": "bun run --cwd packages/frontend dev",
     "start:backend": "bun run --cwd packages/backend start",
@@ -15,14 +14,9 @@
     "build:all": "bun run build:frontend && bun run build:backend",
     "compile:win": "bun run build:all && bun ./zipcompile.ts"
   },
-  "devDependencies": {
-    "concurrently": "^9.0.1",
-    "jszip": "^3.10.1"
-  },
-  "dependencies": {
-    "duck-duck-scrape": "^2.2.5",
-    "fuzzysort": "^3.0.2",
-    "string-similarity": "^4.0.4",
-    "tailwind-merge": "^2.5.3"
-  }
+  "workspaces": [
+    "packages/frontend",
+    "packages/backend",
+    "packages/shared"
+  ]
 }

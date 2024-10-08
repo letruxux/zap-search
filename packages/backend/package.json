@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0",
+    "duck-duck-scrape": "^2.2.5",
+    "fuzzysort": "^3.0.2",
     "google-sr": "^4.0.0",
     "hono": "^4.5.8",
-    "ky": "^1.7.1"
+    "ky": "^1.7.1",
+    "string-similarity": "^4.0.4"
   },
   "scripts": {
     "start": "bun .",
