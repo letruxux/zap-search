@@ -2,11 +2,11 @@
 
 ## Run in development
 
-You should use this if you want to contribute to the project.
+You should use this if you want to contribute to the project, or the executable version has some issues.
 
 Opens backend on port 5180 and frontend on port 5173.
 
-### Build
+### Install dependencies
 
 ```bash
 bun install
