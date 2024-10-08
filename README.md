@@ -4,6 +4,9 @@
 
 # Run locally
 
+> [!CAUTION]
+> The executable is currently not working. The compiling process is currently broken. Please install [bun](https://bun.sh/docs/installation) and use the [run guide](RUN.md) to run this.
+
 - Download the latest zip from the [releases](https://github.com/letruxux/zap-search/releases) page.
 - Extract the archive to a folder.
 - Run the executable.
