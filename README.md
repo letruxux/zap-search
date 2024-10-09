@@ -5,7 +5,8 @@
 # Run locally
 
 > [!CAUTION]
-> The executable is currently not working. The compiling process is currently broken. Please install [bun](https://bun.sh/docs/installation) and use the [run guide](RUN.md) to run this.
+> Instead of using the .zip archive, please [download the source](https://github.com/letruxux/zap-search/archive/refs/heads/master.zip) and run `compile.bat` to compile the project. A `dist.zip` archive will be created, which is the program.
+> This is a temporary fix to an issue with the built archive provided in the release, still investigating.
 
 - Download the latest zip from the [releases](https://github.com/letruxux/zap-search/releases) page.
 - Extract the archive to a folder.
