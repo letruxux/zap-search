@@ -46,7 +46,9 @@ cd /d %~dp0
 :compile
     echo Installing Bun dependencies...
     bun install
-    if %errorLevel% == 0 () else (
+    if %errorLevel% == 0 (
+        echo Dependencies installed successfully.
+    ) else (
         echo Failed to install dependencies.
         pause
     )
