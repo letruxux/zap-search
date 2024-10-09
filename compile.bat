@@ -35,7 +35,11 @@ cd /d %~dp0
     powershell -c "irm bun.sh/install.ps1 | iex"
     echo off
     if %errorLevel% == 0 (
-        echo Bun installed successfully.
+        echo
+        echo Bun installed successfully. But it's not over yet!
+        echo Please run this script again to continue the installation!!
+        pause
+        goto end
     ) else (
         echo Failed to install Bun.
         pause
@@ -56,6 +60,8 @@ cd /d %~dp0
     bun run compile:win
     if %errorLevel% == 0 (
         echo Program compiled successfully. Extract dist.zip to run it!
+        pause
+        goto end
     ) else (
         echo Failed to compile the program.
         pause
