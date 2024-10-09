@@ -1,5 +1,5 @@
 import { ProviderExports, type ProviderInfo } from "shared/defs";
-import search, { relevanceSortResults } from "./utils";
+import search, { openBrowser, relevanceSortResults } from "./utils";
 import allProviders from "./providers";
 
 import { Hono } from "hono";
@@ -131,6 +131,10 @@ console.log("http://localhost:5180");
 console.log("");
 console.log("If you're running this app in development mode, click the link below:");
 console.log("http://localhost:5173");
+
+if (!Bun.argv.includes("--no-browser")) {
+  openBrowser(`http://localhost:${port}`);
+}
 
 serve({
   fetch: app.fetch,

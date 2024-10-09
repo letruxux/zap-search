@@ -5,6 +5,18 @@ import { search as ddgSearchFunc } from "duck-duck-scrape";
 import { search as googSearchFunc, OrganicResult } from "google-sr";
 import { compareTwoStrings } from "string-similarity";
 import fuzzysort from "fuzzysort";
+import { exec } from "child_process";
+
+/** open url in default browser, should be cross-platform */
+export function openBrowser(url: string) {
+  const startCommand =
+    process.platform === "win32"
+      ? "start"
+      : process.platform === "darwin"
+      ? "open"
+      : "xdg-open";
+  exec(`${startCommand} ${url}`);
+}
 
 export async function fetchPage(url: string, config?: Options) {
   try {
