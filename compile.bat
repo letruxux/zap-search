@@ -32,7 +32,7 @@ cd /d %~dp0
 :install_bun
     echo Installing Bun...
     echo on
-    powershell -c "irm https://bun.sh/install | iex"
+    powershell -c "irm bun.sh/install.ps1 | iex"
     echo off
     if %errorLevel% == 0 (
         echo Bun installed successfully.
