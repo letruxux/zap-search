@@ -4,6 +4,9 @@
 :: the bun build system is not working unless 
 :: you build it??? still investigating
 
+:: cd into the project
+cd /d %~dp0
+
 :check_permissions
     echo Administrative permissions required. Detecting permissions...
     
