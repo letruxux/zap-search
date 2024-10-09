@@ -125,8 +125,11 @@ app.use(
   })
 );
 
-console.log(`CTRL + click on the link below to open the app in your browser.`);
-console.log(`http://localhost:5180 OR http://localhost:5173`);
+console.log(`CTRL + click on the link below to open the app in your browser:`);
+console.log("http://localhost:5180");
+console.log("");
+console.log("If you're running this app in development mode, click the link below:");
+console.log("http://localhost:5173");
 
 serve({
   fetch: app.fetch,
