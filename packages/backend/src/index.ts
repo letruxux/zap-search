@@ -13,9 +13,10 @@ const port = 5180;
 const distFolderPath = "./dist";
 
 const distFolder = Bun.file(distFolderPath);
-if (!distFolder.exists()) {
+const indexFile = Bun.file(`${distFolderPath}/index.html`);
+if (!distFolder.exists() || !indexFile.exists()) {
   throw new Error(
-    `"${distFolderPath}" folder not found. Make sure you haven\'t moved the dist folder or the executable.`
+    `"${distFolderPath}" folder or it's files were not found. Make sure you haven\'t moved the dist folder or the executable.`
   );
 }
 
