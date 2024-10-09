@@ -21,7 +21,7 @@ export function parsePage(page: string): BaseResult[] {
 
   results.forEach((result) => {
     const title = result.title;
-    const link = `${baseUrl}game/${result.slug}`;
+    const link = `${baseUrl}/game/${result.slug}`;
     const icon = `https://images.gog-statics.com/${result.image}.webp`;
 
     dataResults.push({
