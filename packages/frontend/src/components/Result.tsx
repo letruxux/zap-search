@@ -4,6 +4,15 @@ import ImageWithPopup from "./Image";
 import clsx from "clsx";
 import IconsComponent from "./IconsComponent";
 
+function host(url: string) {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.host;
+  } catch {
+    return undefined;
+  }
+}
+
 export default function Result({
   result,
   providers,
@@ -22,6 +31,13 @@ export default function Result({
       }) + (result.title.startsWith(".") ? "..." : ""); // Add ellipsis if original title started with dots
 
   const provider = providers.find((p) => p.id === result.provider)!;
+
+  const urlHost = host(result.link);
+
+  if (!urlHost) {
+    console.log("Invalid URL:", result.link);
+    return null;
+  }
 
   return (
     <div className="card transition-shadow bg-base-300 shadow-xl hover:shadow-2xl duration-300 mt-4 first:mt-2">
@@ -48,7 +64,7 @@ export default function Result({
           </h2>
           <p className="text-sm text-base-content opacity-70 mt-2">
             <div className="flex items-center flex-row space-x-2">
-              {new URL(result.link).host} <IconsComponent provider={provider} />
+              {urlHost} <IconsComponent provider={provider} />
             </div>
           </p>
         </div>
