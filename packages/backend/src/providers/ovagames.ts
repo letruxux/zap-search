@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
+import { fetchPage, webSearch } from "../utils";
 
 const baseUrl = "https://www.ovagames.com";
 
@@ -10,8 +11,8 @@ export function generateUrl({ query }: { query: string }) {
   return urlString;
 }
 
-export function parsePage(page: string): BaseResult[] {
-  const $ = cheerio.load(page);
+function parseHTML(html: string): BaseResult[] {
+  const $ = cheerio.load(html);
   const results = $(".home-post-wrap");
   const dataResults: BaseResult[] = [];
 
@@ -34,6 +35,18 @@ export function parsePage(page: string): BaseResult[] {
   return dataResults;
 }
 
+export async function fetchResults(url: string): Promise<BaseResult[]> {
+  const query = new URL(url).searchParams.get("s");
+  try {
+    const html = await fetchPage(url);
+    const results = parseHTML(html);
+    return results;
+  } catch {
+    const results = await webSearch(`site:${baseUrl} ${query}`);
+    return results;
+  }
+}
+
 export default {
   baseUrl,
   action: "Download",
@@ -42,6 +55,6 @@ export default {
   category: "Games",
   possibleDownloadTypes: ["direct"],
 
-  parsePage,
+  fetchResults,
   generateUrl,
 } as ProviderExports;
