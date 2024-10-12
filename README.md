@@ -12,6 +12,9 @@ Facing some issues? Try [running it locally](#run-locally).
 
 ## Run locally
 
+> [!NOTE]
+> Executable releases may be out of date, if you want to run the latest version, you can use the hosted version or [run it in development](RUN.md#run-in-development) (or [with docker](RUN.md#run-with-docker)).
+
 - Download the latest zip from the [releases](https://github.com/letruxux/zap-search/releases) page.
 - Extract the archive to a folder.
 - Run the executable.
