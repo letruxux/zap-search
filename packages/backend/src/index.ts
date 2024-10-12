@@ -34,7 +34,11 @@ async function getResults(
       }));
     })
     .catch((e) => {
-      onError(e);
+      if (onError && e && e instanceof Error) {
+        onError(e);
+      } else {
+        console.log("onError failed:", !!e, !!onError);
+      }
       return [];
     });
 
