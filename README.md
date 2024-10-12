@@ -1,12 +1,16 @@
 <h1 align="center">🔎 zap search</h1>
 
-<p align="center">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface. <br><br>🤔 Don't know where to start? Follow the <a href="#run-locally"><b>Run locally</b> guide</a>.</p>
+<p align="center">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface. <br><br>🤔 Don't know where to start? Visit the [hosted version](zap-search.onrender.com).</p>
 
-# Run locally
+# Hosted version
 
-> [!CAUTION]
-> Instead of using the .zip archive, please [download the source](https://github.com/letruxux/zap-search/archive/refs/heads/master.zip) and run `compile.bat` to compile the project. A `dist.zip` archive will be created, which is the program.
-> This is a temporary fix to an issue with the built archive provided in the release, still investigating.
+You can use the hosted version at [zap-search.onrender.com](zap-search.onrender.com).
+
+> Please keep in mind this is running on a free plan, so it might take a few seconds to load and might not be functional at all times.
+
+Facing some issues? Try [running it locally](#run-locally).
+
+## Run locally
 
 - Download the latest zip from the [releases](https://github.com/letruxux/zap-search/releases) page.
 - Extract the archive to a folder.

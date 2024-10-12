@@ -24,7 +24,7 @@ if (!distFolder.exists() || !indexFile.exists()) {
 async function getResults(
   providerInstance: ProviderExports,
   query: string,
-  onError: (e: Error) => void
+  onError: (e: Error, providerName: string) => void
 ) {
   console.log("getting results for", providerInstance.id);
   const resultsPromise = search(providerInstance, { query })
@@ -36,7 +36,7 @@ async function getResults(
     })
     .catch((e) => {
       try {
-        onError(e);
+        onError(e, providerInstance.name);
       } catch (e) {
         console.log("onError failed:", e);
       }
@@ -64,10 +64,10 @@ app.get("/api/search", async (c) => {
       return c.json({ error: "Provider not found" }, 404);
     }
 
-    const errors: Error[] = [];
+    const errors: { err: Error; prov: string }[] = [];
 
     const searchPromises = providerInstances.map((pr) =>
-      getResults(pr, query, (a) => errors.push(a))
+      getResults(pr, query, (a, name) => errors.push({ err: a, prov: name }))
     );
 
     const unflattenedResults = (await Promise.all(searchPromises)).flat();
@@ -79,7 +79,10 @@ app.get("/api/search", async (c) => {
       throw errors[0];
     }
 
-    const errorsText = errors.length > 0 ? errors.map((e) => e.message).join("\n") : null;
+    const errorsText =
+      errors.length > 0
+        ? errors.map(({ err, prov }) => `${prov}: ${err}`).join("\n")
+        : null;
 
     return c.json({
       error: errorsText,
