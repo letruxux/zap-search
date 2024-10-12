@@ -26,6 +26,7 @@ async function getResults(
   query: string,
   onError: (e: Error) => void
 ) {
+  console.log("getting results for", providerInstance.id);
   const resultsPromise = search(providerInstance, { query })
     .then((r) => {
       return r.map((e) => ({
@@ -34,10 +35,10 @@ async function getResults(
       }));
     })
     .catch((e) => {
-      if (onError && e && e instanceof Error) {
+      try {
         onError(e);
-      } else {
-        console.log("onError failed:", !!e, !!onError);
+      } catch (e) {
+        console.log("onError failed:", e);
       }
       return [];
     });
