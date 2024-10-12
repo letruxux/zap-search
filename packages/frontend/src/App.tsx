@@ -117,10 +117,8 @@ function App() {
           )}
           {!loading && searchResults.length > 0 && ranYet && (
             <div className="mt-2 ml-1">
-              Found <span className="font-bold">{suggestedResults.length}</span> results{" "}
-              {"(+"}
-              {otherResults.length} hidden
-              {")"}.
+              Found <span className="font-bold">{suggestedResults.length}</span> results
+              {` (+${otherResults.length} less relevant).`}
             </div>
           )}
           <ResultsList searchResults={searchResults} providers={providers} />

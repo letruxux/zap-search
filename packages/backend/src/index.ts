@@ -16,7 +16,7 @@ const distFolder = Bun.file(distFolderPath);
 const indexFile = Bun.file(`${distFolderPath}/index.html`);
 if (!distFolder.exists() || !indexFile.exists()) {
   throw new Error(
-    `"${distFolderPath}" folder or it's files were not found. Make sure you haven\'t moved the dist folder or the executable.`
+    `"${distFolderPath}" folder or its files were not found. Make sure you haven\'t moved the dist folder or the executable.`
   );
 }
 
@@ -80,7 +80,7 @@ app.get("/api/search", async (c) => {
     }
 
     const errorsText =
-      errors.length > 0
+      errors.length === providerInstances.length
         ? errors.map(({ err, prov }) => `${prov}: ${err}`).join("\n")
         : null;
 
