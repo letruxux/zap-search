@@ -67,7 +67,7 @@ app.get("/api/search", async (c) => {
     const errors: Error[] = [];
 
     const searchPromises = providerInstances.map((pr) =>
-      getResults(pr, query, errors.push)
+      getResults(pr, query, (a) => errors.push(a))
     );
 
     const unflattenedResults = (await Promise.all(searchPromises)).flat();
