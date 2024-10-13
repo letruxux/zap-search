@@ -1,6 +1,6 @@
 <h1 align="center">🔎 zap search</h1>
 
-<p align="center">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface. <br><br>🤔 Don't know where to start? Visit the [hosted version](zap-search.onrender.com).</p>
+<p align="center">zap search is a search engine built in <a href="https://bun.sh/docs/installation">bun</a> that allows you to search for games, software and other miscellaneous content easily with a simple web interface. <br><br>🤔 Don't know where to start? Visit the <a href="https://zap-search.onrender.com">hosted version</a>.</p>
 
 # Hosted version
 
