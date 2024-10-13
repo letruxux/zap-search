@@ -18,7 +18,6 @@ export function parsePage(page: string): BaseResult[] {
   results.each((_, el) => {
     try {
       const title = $(el).find("h3").text().trim();
-      console.log(title);
       const link = baseUrl + $(el).attr("href")!.trim();
       const icon = $(el).find(".flex-none img").attr("src")!;
       dataResults.push({
