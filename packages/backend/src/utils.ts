@@ -50,7 +50,6 @@ export default async function search(
   options: GenerateUrlOptions
 ): Promise<BaseResult[]> {
   const url = provider.generateUrl(options);
-  console.log(`${provider.name} generated URL:`, url);
 
   let data: BaseResult[] = [];
 

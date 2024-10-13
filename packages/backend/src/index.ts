@@ -26,7 +26,6 @@ async function getResults(
   query: string,
   onError: (e: Error, providerName: string) => void
 ) {
-  console.log("getting results for", providerInstance.id);
   const resultsPromise = search(providerInstance, { query })
     .then((r) => {
       return r.map((e) => ({
