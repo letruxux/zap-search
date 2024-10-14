@@ -11,6 +11,10 @@ function generateUrl({ query }: { query: string }) {
   return urlString;
 }
 
+function filterResults(results: BaseResult[]): BaseResult[] {
+  return results.filter((result) => !result.link.includes("/page/"));
+}
+
 function parseHTML(html: string): BaseResult[] {
   const $ = cheerio.load(html);
   const results = $(".home-post-wrap");
@@ -57,4 +61,5 @@ export default {
 
   fetchResults,
   generateUrl,
+  filterResults,
 } as ProviderExports;

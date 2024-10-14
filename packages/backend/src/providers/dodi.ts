@@ -17,8 +17,11 @@ function filterResults(results: BaseResult[]): BaseResult[] {
         link.includes("all-repacks-") ||
         link.includes("/page/") ||
         /^\d+\/\d(?!\/)/.test(link.replace(baseUrl, "")) ||
+        /\d{4}\/\d{2}\/\d{2}\/?$/.test(link) ||
+        /\d{4}\/\d{2}\/?$/.test(link) ||
         title.length < 1 ||
-        title.trim() === "DODI Repacks"
+        title.trim() === "DODI Repacks" ||
+        link.endsWith("/gift/")
       )
   );
 }
