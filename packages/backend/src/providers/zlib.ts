@@ -19,7 +19,6 @@ export function parsePage(page: string): BaseResult[] {
   results.each((_, el) => {
     try {
       const title = $(el).find("h3 a").text().trim();
-      console.log(title);
       const link = baseUrl + $(el).find("h3 a").attr("href")!.trim();
       const icon = getHighestResImg($(el).find(".itemCover a img").attr("data-srcset")!);
       dataResults.push({
