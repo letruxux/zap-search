@@ -64,6 +64,7 @@ app.get("/api/search", async (c) => {
     }
 
     const errors: { err: Error; prov: string }[] = [];
+    console.log(`Searching "${query}" on ${providerInstances.length} sites.`)
 
     const searchPromises = providerInstances.map((pr) =>
       getResults(pr, query, (a, name) => errors.push({ err: a, prov: name }))
