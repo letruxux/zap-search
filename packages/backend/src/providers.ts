@@ -1,3 +1,4 @@
+import type { ProviderExports } from "shared/defs";
 import Dodi from "./providers/dodi";
 import Fitgirl from "./providers/fitgirl";
 import Gog from "./providers/gog";
@@ -14,9 +15,8 @@ import audioz from "./providers/audioz";
 import plugintorrent from "./providers/plugintorrent";
 import FourDownload from "./providers/4download";
 import cracksurl from "./providers/cracksurl";
-
-import type { ProviderExports } from "shared/defs";
 import zlib from "./providers/zlib";
+import appdoze from "./providers/appdoze";
 
 export default [
   /* games */
@@ -34,6 +34,7 @@ export default [
   /* software */
   Monkrus,
   cracksurl,
+  appdoze,
 
   /* roms */
   Nxbrew,
