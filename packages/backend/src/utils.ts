@@ -62,7 +62,7 @@ export default async function search(
   provider: ProviderExports,
   options: GenerateUrlOptions
 ): Promise<BaseResult[]> {
-  const url = provider.generateUrl(options);
+  const url = provider.generateUrl({ ...options, query: options.query.trim() });
 
   let data: BaseResult[] = [];
 
