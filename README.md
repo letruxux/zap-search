@@ -4,7 +4,7 @@
 
 # Hosted version
 
-You can use the hosted version at [zap-search.onrender.com](zap-search.onrender.com).
+You can use the hosted version at [zap-search.onrender.com](https://zap-search.onrender.com).
 
 > Please keep in mind this is running on a free plan, so it might take a few seconds to load and might not be functional at all times.
 
