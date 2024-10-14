@@ -26,12 +26,10 @@ async function scrapeSearch(url: string): Promise<BaseResult[] | null> {
           .split("Free Download")[0]!
           .trim();
         const link = baseUrl + $(el).find("div.slide a").attr("href")!.trim();
-        const icon = undefined; //$(el).find("div.slide").attr("data-back")!;
 
         dataResults.push({
           title,
           link,
-          icon,
         });
       } catch (e) {
         console.error("Skipping element due to error:", e);

@@ -4,13 +4,26 @@ import type { ProviderExports } from "shared/defs";
 
 const baseUrl = "https://fitgirl-repacks.site";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}?s=${encodeURIComponent(query)}`;
 
   return urlString;
 }
 
-export function parsePage(page: string): BaseResult[] {
+function filterResults(results: BaseResult[]): BaseResult[] {
+  return results.filter(
+    ({ link }) =>
+      !(
+        link.endsWith("pop-repacks/") ||
+        link.endsWith("popular-repacks-of-the-year/") ||
+        link.endsWith("popular-repacks/") ||
+        link.includes("upcoming-repacks") ||
+        link.includes("-repacks-a-z")
+      )
+  );
+}
+
+function parsePage(page: string): BaseResult[] {
   const $ = cheerio.load(page);
   const results = $("article");
   const dataResults: BaseResult[] = [];
@@ -22,21 +35,6 @@ export function parsePage(page: string): BaseResult[] {
       const link = $(el).find("h1 a").attr("href")!.trim();
       const icon = $(el).find("img").attr("src")!;
 
-      if (!title || !link) {
-        console.warn("Skipping element due to missing data:", title);
-        return;
-      }
-      if (
-        /* remove non-repacks */
-        link.endsWith("pop-repacks/") ||
-        link.endsWith("popular-repacks-of-the-year/") ||
-        link.endsWith("popular-repacks/") ||
-        link.includes("upcoming-repacks") ||
-        link.includes("-repacks-a-z")
-      ) {
-        console.warn("Skipping element due to invalid entry:", link);
-        return;
-      }
       dataResults.push({
         title,
         link,
@@ -60,4 +58,5 @@ export default {
 
   parsePage,
   generateUrl,
+  filterResults,
 } as ProviderExports;

@@ -5,13 +5,13 @@ import { getHighestResImg } from "../utils";
 
 const baseUrl = "https://z-lib.gd";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}/s/${query}`;
 
   return urlString;
 }
 
-export function parsePage(page: string): BaseResult[] {
+function parsePage(page: string): BaseResult[] {
   const $ = cheerio.load(page);
   const results = $("#searchResultBox .resItemBox.exactMatch");
   const dataResults: BaseResult[] = [];
@@ -21,6 +21,7 @@ export function parsePage(page: string): BaseResult[] {
       const title = $(el).find("h3 a").text().trim();
       const link = baseUrl + $(el).find("h3 a").attr("href")!.trim();
       const icon = getHighestResImg($(el).find(".itemCover a img").attr("data-srcset")!);
+
       dataResults.push({
         title,
         link,

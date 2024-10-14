@@ -5,7 +5,7 @@ import { fetchPage, webSearch } from "../utils";
 
 const baseUrl = "https://www.ovagames.com";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}?x=0&y=0&s=${encodeURIComponent(query)}`;
 
   return urlString;

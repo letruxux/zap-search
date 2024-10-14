@@ -4,13 +4,13 @@ import * as cheerio from "cheerio";
 
 const baseUrl = "https://www.ziperto.com";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}?s=${encodeURIComponent(query)}`;
 
   return urlString;
 }
 
-export function parsePage(page: string): BaseResult[] {
+function parsePage(page: string): BaseResult[] {
   const $ = cheerio.load(page);
   const results = $("article");
   const dataResults: BaseResult[] = [];
@@ -32,8 +32,12 @@ export function parsePage(page: string): BaseResult[] {
     }
   });
 
-  return dataResults.filter(
-    (result) => !result.title.startsWith("Nintendo Switch DLC & Updates ")
+  return dataResults;
+}
+
+function filterResults(results: BaseResult[]): BaseResult[] {
+  return results.filter(
+    (result) => !result.title.toLowerCase().startsWith("nintendo switch dlc & updates ")
   );
 }
 
@@ -46,6 +50,7 @@ export default {
   category: "ROMs",
   possibleDownloadTypes: ["direct"],
 
+  filterResults,
   generateUrl,
   parsePage,
 } as ProviderExports;

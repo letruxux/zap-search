@@ -4,13 +4,13 @@ import type { ProviderExports } from "shared/defs";
 
 const baseUrl = "https://kits4beats.com";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}?s=${encodeURIComponent(query)}`;
 
   return urlString;
 }
 
-export function parsePage(page: string): BaseResult[] {
+function parsePage(page: string): BaseResult[] {
   const $ = cheerio.load(page);
   const results = $("article");
   const dataResults: BaseResult[] = [];
@@ -26,11 +26,6 @@ export function parsePage(page: string): BaseResult[] {
 
       const link = $(el).find("h2.entry-title a").attr("href")!.trim();
       const icon = $(el).find("img.wp-post-image").attr("src")!;
-
-      if (!title || !link) {
-        console.warn("Skipping element due to missing data:", title);
-        return;
-      }
 
       dataResults.push({
         title,

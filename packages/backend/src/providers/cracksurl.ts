@@ -4,13 +4,13 @@ import type { ProviderExports } from "shared/defs";
 
 const baseUrl = "https://cracksurl.com";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}?s=${encodeURIComponent(query)}`;
 
   return urlString;
 }
 
-export function parsePage(page: string): BaseResult[] {
+function parsePage(page: string): BaseResult[] {
   const $ = cheerio.load(page);
   const results = $("#content.article article.post");
   const dataResults: BaseResult[] = [];

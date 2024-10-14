@@ -3,7 +3,17 @@ import type { ProviderExports } from "shared/defs";
 
 const baseUrl = "https://www.gog-games.to";
 
-export function generateUrl({ query }: { query: string }) {
+interface ApiGame {
+  slug: string;
+  title: string;
+  image: string;
+}
+
+interface ApiResponse {
+  data: ApiGame[];
+}
+
+function generateUrl({ query }: { query: string }) {
   const urlString = `https://www.gog-games.to/search?page=1&in_dev_filter=none&sort_by=last_update_desc&search=${encodeURIComponent(
     query
   )}`;
@@ -11,12 +21,8 @@ export function generateUrl({ query }: { query: string }) {
   return urlString;
 }
 
-export function parsePage(page: string): BaseResult[] {
-  const results = (
-    JSON.parse(page) as {
-      data: { slug: string; title: string; image: string }[];
-    }
-  ).data;
+function parsePage(page: string): BaseResult[] {
+  const { data: results } = JSON.parse(page) as ApiResponse;
   const dataResults: BaseResult[] = [];
 
   results.forEach((result) => {

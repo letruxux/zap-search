@@ -5,13 +5,13 @@ import * as cheerio from "cheerio";
 
 const baseUrl = "https://4download.net";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}?do=search&s=${encodeURIComponent(query)}`;
 
   return urlString;
 }
 
-export async function fetchResults(url: string): Promise<BaseResult[]> {
+async function fetchResults(url: string): Promise<BaseResult[]> {
   const query = new URL(url).searchParams.get("s");
 
   const formdata = new FormData();

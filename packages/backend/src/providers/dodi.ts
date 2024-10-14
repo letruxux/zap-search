@@ -4,26 +4,32 @@ import { webSearch } from "../utils";
 
 const baseUrl = "https://dodi-repacks.site";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   return `site:${baseUrl} ${query}`;
 }
 
-export async function fetchResults(query: string): Promise<BaseResult[]> {
+function filterResults(results: BaseResult[]): BaseResult[] {
+  return results.filter(
+    ({ link, title }) =>
+      link.trim() !== baseUrl &&
+      !(
+        link.endsWith("upcoming-repacks/") ||
+        link.includes("all-repacks-") ||
+        link.includes("/page/") ||
+        /^\d+\/\d(?!\/)/.test(link.replace(baseUrl, "")) ||
+        title.length < 1 ||
+        title.trim() === "DODI Repacks"
+      )
+  );
+}
+
+async function fetchResults(query: string): Promise<BaseResult[]> {
   const queryResult = await webSearch(query);
 
   const dataResults: BaseResult[] = [];
 
   queryResult.forEach((result) => {
-    /* oh gosh why is this so bad... */
-    if (
-      result.link.trim() !== baseUrl &&
-      !result.link.endsWith("upcoming-repacks/") &&
-      !result.link.includes("all-repacks-") &&
-      !result.link.includes("/page/") &&
-      !/^\d+\/\d(?!\/)/.test(result.link.replace(baseUrl, "")) &&
-      result.title.length > 1 &&
-      result.title.trim() !== "DODI Repacks"
-    ) {
+    try {
       const _title = result.title
         .trim()
         .replace(/^\d+\s*-\s*/, "")
@@ -32,13 +38,14 @@ export async function fetchResults(query: string): Promise<BaseResult[]> {
         ? _title.slice(0, -16).trim()
         : _title;
       const link = result.link;
-      const icon = undefined;
+
       const data: BaseResult = {
         title,
         link,
-        icon,
       };
       dataResults.push(data);
+    } catch (e) {
+      console.error("Skipping element due to error:", e);
     }
   });
 
@@ -53,6 +60,7 @@ export default {
   category: "Games",
   possibleDownloadTypes: ["direct", "torrent"],
 
+  filterResults,
   fetchResults,
   generateUrl,
 } as ProviderExports;

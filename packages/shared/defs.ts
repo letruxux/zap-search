@@ -47,6 +47,7 @@ export interface ProviderInfo {
 
 export interface RawProviderExports {
   generateUrl: (args: GenerateUrlOptions) => string;
+  filterResults?: (results: BaseResult[]) => BaseResult[];
 }
 
 /** provider exports */

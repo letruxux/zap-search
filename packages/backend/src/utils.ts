@@ -7,6 +7,19 @@ import { compareTwoStrings } from "string-similarity";
 import fuzzysort from "fuzzysort";
 import { exec } from "child_process";
 
+function isUrl(url: string) {
+  try {
+    new URL(url);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function cleanString(input: string): string {
+  return input.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+}
+
 /** open url in default browser, should be cross-platform */
 export function openBrowser(url: string) {
   const startCommand =
@@ -61,15 +74,17 @@ export default async function search(
     data = provider.parsePage(html);
   }
 
+  data = data.filter(({ link, title }) => link && title && isUrl(link));
+
+  if (provider.filterResults) {
+    data = provider.filterResults(data);
+  }
+
   if (data.length) {
     console.log(`${provider.name} results:`, data.length);
   }
 
   return data;
-}
-
-function cleanString(input: string): string {
-  return input.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
 }
 
 export function relevanceSortResults(query: string, items: BaseResult[]): BaseResult[] {
@@ -182,6 +197,8 @@ export async function safePromise<T, E = Error>(
 }
 
 export function getHighestResImg(srcset: string): string {
+  if (!srcset) return "";
+
   const sources: {
     url: string;
     width: number;

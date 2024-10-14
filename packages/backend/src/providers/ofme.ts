@@ -5,7 +5,7 @@ import { fetchPage, webSearch } from "../utils";
 
 const baseUrl = "https://online-fix.me/index.php";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}?do=search&subaction=search&s=${encodeURIComponent(
     query
   )}`;
@@ -22,13 +22,10 @@ function parsePage(page: string): BaseResult[] {
     try {
       const title = $(el).find("h2.title").text().trim().slice(0, -8);
       const link = $(el).find(".image a").attr("href")!.trim();
-      const icon = undefined; //$(el).find("img.lazyload").attr("data-src")!;
-      /* dont use icon since it has returns a hotlink warning */
 
       dataResults.push({
         title,
         link,
-        icon,
       });
     } catch (e) {
       console.error("Skipping element due to error:", e);

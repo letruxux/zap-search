@@ -4,13 +4,13 @@ import type { ProviderExports } from "shared/defs";
 
 const baseUrl = "https://annas-archive.org";
 
-export function generateUrl({ query }: { query: string }) {
+function generateUrl({ query }: { query: string }) {
   const urlString = `${baseUrl}/search?q=${encodeURIComponent(query!)}`;
 
   return urlString;
 }
 
-export function parsePage(page: string): BaseResult[] {
+function parsePage(page: string): BaseResult[] {
   const $ = cheerio.load(page);
   const results = $("a.js-vim-focus.custom-a.flex.items-center.relative");
   const dataResults: BaseResult[] = [];
