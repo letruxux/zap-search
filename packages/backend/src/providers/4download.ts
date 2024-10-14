@@ -41,12 +41,10 @@ async function fetchResults(url: string): Promise<BaseResult[]> {
     const title = `${_title} ${_serie}`;
     const link = $(el).attr("href")!.trim();
 
-    const data: BaseResult = {
+    dataResults.push({
       title,
       link,
-    };
-
-    dataResults.push(data);
+    });
   });
 
   return dataResults;

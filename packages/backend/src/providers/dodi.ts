@@ -42,11 +42,10 @@ async function fetchResults(query: string): Promise<BaseResult[]> {
         : _title;
       const link = result.link;
 
-      const data: BaseResult = {
+      dataResults.push({
         title,
         link,
-      };
-      dataResults.push(data);
+      });
     } catch (e) {
       console.error("Skipping element due to error:", e);
     }

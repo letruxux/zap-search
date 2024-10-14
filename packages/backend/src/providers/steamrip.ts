@@ -57,13 +57,11 @@ async function engineSearch(ogQuery: string): Promise<BaseResult[]> {
         .replace(/\s+/g, " ")
         .trim();
       const link = result.link;
-      const icon = undefined;
-      const data: BaseResult = {
+
+      dataResults.push({
         title,
         link,
-        icon,
-      };
-      dataResults.push(data);
+      });
     }
   });
 
