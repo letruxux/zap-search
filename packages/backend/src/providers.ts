@@ -17,6 +17,8 @@ import FourDownload from "./providers/4download";
 import cracksurl from "./providers/cracksurl";
 import zlib from "./providers/zlib";
 import appdoze from "./providers/appdoze";
+import cmacked from "./providers/cmacked";
+import mactorrents from "./providers/mactorrents";
 
 export default [
   /* games */
@@ -35,6 +37,8 @@ export default [
   Monkrus,
   cracksurl,
   appdoze,
+  cmacked,
+  mactorrents,
 
   /* roms */
   Nxbrew,
