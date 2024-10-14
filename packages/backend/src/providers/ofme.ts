@@ -41,8 +41,6 @@ async function fetchResults(url: string) {
 
     return parsePage(html);
   } catch (e) {
-    console.error("Error while processing, using fallback.", e);
-
     const query = new URL(url).searchParams.get("s");
     const results = await webSearch(`site:${new URL(baseUrl).hostname} ${query}`);
     return results;

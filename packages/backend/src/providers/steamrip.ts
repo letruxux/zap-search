@@ -37,8 +37,7 @@ async function scrapeSearch(url: string): Promise<BaseResult[] | null> {
     });
 
     return dataResults;
-  } catch (e) {
-    console.error("Error while processing, using fallback.");
+  } catch {
     return null;
   }
 }
