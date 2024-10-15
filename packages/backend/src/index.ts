@@ -1,5 +1,5 @@
-import { ProviderExports, type ProviderInfo } from "shared/defs";
-import search, { openBrowser, relevanceSortResults } from "./utils";
+import BaseResult, { ProviderExports, type ProviderInfo } from "shared/defs";
+import search, { openBrowser, relevanceSortResults, safePromise } from "./utils";
 import allProviders from "./providers";
 
 import { Hono } from "hono";
@@ -21,26 +21,13 @@ if (!distFolder.exists() || !indexFile.exists()) {
 }
 
 /* helper function to get results from instance */
-async function getResults(
-  providerInstance: ProviderExports,
-  query: string,
-  onError: (e: Error, providerName: string) => void
-) {
-  const resultsPromise = search(providerInstance, { query })
-    .then((r) => {
-      return r.map((e) => ({
-        ...e,
-        provider: providerInstance.id,
-      }));
-    })
-    .catch((e) => {
-      try {
-        onError(e, providerInstance.name);
-      } catch (e) {
-        console.log("onError failed:", e);
-      }
-      return [];
-    });
+async function getResults(providerInstance: ProviderExports, query: string) {
+  const resultsPromise = search(providerInstance, { query }).then((r) => {
+    return r.map((e) => ({
+      ...e,
+      provider: providerInstance.id,
+    }));
+  });
 
   return await resultsPromise;
 }
@@ -63,15 +50,20 @@ app.get("/api/search", async (c) => {
       return c.json({ error: "Provider not found" }, 404);
     }
 
-    const errors: { err: string; prov: string }[] = [];
-    console.log(`Searching "${query}" on ${providerInstances.length} sites.`)
+    console.log(`Searching "${query}" on ${providerInstances.length} sites.`);
 
-    const searchPromises = providerInstances.map((pr) =>
-      getResults(pr, query, (a, name) => errors.push({ err: String(a), prov: name }))
-    );
+    const searchPromises = providerInstances.map(async (pr) => {
+      const [res, err] = await safePromise(getResults(pr, query));
+      return (res as BaseResult[]) || (err as Error);
+    });
 
     const unflattenedResults = (await Promise.all(searchPromises)).flat();
-    const results = relevanceSortResults(query, unflattenedResults);
+    const errors = unflattenedResults.filter((e) => e instanceof Error) as Error[];
+    const successfulResults = unflattenedResults.filter(
+      (e) => !(e instanceof Error)
+    ) as BaseResult[];
+
+    const results = relevanceSortResults(query, successfulResults);
     console.log(results.length, "total results found");
 
     /* if theres only 1 provider, return the error */
@@ -81,7 +73,7 @@ app.get("/api/search", async (c) => {
 
     const errorsText =
       errors.length === providerInstances.length
-        ? errors.map(({ err, prov }) => `${prov}: ${err}`).join("\n")
+        ? errors.map((err) => String(err)).join("\n")
         : null;
 
     return c.json({
