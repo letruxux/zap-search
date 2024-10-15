@@ -63,11 +63,11 @@ app.get("/api/search", async (c) => {
       return c.json({ error: "Provider not found" }, 404);
     }
 
-    const errors: { err: Error; prov: string }[] = [];
+    const errors: { err: string; prov: string }[] = [];
     console.log(`Searching "${query}" on ${providerInstances.length} sites.`)
 
     const searchPromises = providerInstances.map((pr) =>
-      getResults(pr, query, (a, name) => errors.push({ err: a, prov: name }))
+      getResults(pr, query, (a, name) => errors.push({ err: String(a), prov: name }))
     );
 
     const unflattenedResults = (await Promise.all(searchPromises)).flat();
