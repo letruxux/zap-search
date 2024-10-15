@@ -2,24 +2,31 @@ import * as cheerio from "cheerio";
 import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
 
-const baseUrl = "https://cmacked.com";
+const baseUrl = "https://androeed.store";
 
 function generateUrl({ query }: { query: string }) {
-  const urlString = `${baseUrl}?s=${encodeURIComponent(query)}`;
+  const urlString = `${baseUrl}/index.php?m=search&f=s&w=${encodeURIComponent(query)}`;
 
   return urlString;
 }
 
+function filterResults(results: BaseResult[]): BaseResult[] {
+  return results.filter((result) => {
+    return result.link.includes("/files/") && result.link.endsWith(".html");
+  });
+}
+
 function parsePage(page: string): BaseResult[] {
   const $ = cheerio.load(page);
-  const results = $(`#main-site .section a[href^=\"${baseUrl}\"]`);
+  const results = $("#content #res a");
   const dataResults: BaseResult[] = [];
 
   results.each((_, el) => {
     try {
-      const title = $(el).find(".title").text().trim();
-      const link = $(el).attr("href")!.trim();
-      const icon = $(el).find("img.wp-post-image").attr("src")!;
+      const title = $(el).find(".text .title").text().trim();
+
+      const link = baseUrl + $(el).attr("href")!.trim();
+      const icon = $(el).find(".ico img").attr("src")!;
 
       dataResults.push({
         title,
@@ -37,11 +44,13 @@ function parsePage(page: string): BaseResult[] {
 export default {
   baseUrl,
   action: "Download",
-  id: "cmacked",
-  name: "Cmacked",
-  category: "macOS",
+  id: "androeed",
+  name: "Androeed",
+  notice: "(MOD APKs - games & software)",
+  category: "Mobile",
   possibleDownloadTypes: ["direct"],
 
   parsePage,
   generateUrl,
+  filterResults,
 } as ProviderExports;

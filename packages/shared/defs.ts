@@ -22,17 +22,19 @@ export type Action = "Download" | "Watch" | "Read";
 export type DownloadType = "torrent" | "direct";
 
 /** emojis for various categories */
-export const emojis: Record<Category, string> = {
+export const emojis = {
   Games: "🎮",
   ROMs: "💾",
   Software: "💻",
   Video: "📹",
   Reading: "📖",
   Producing: "🎶",
+  macOS: "🍎",
+  Mobile: "📱",
 };
 
 /** provider category */
-export type Category = "Games" | "ROMs" | "Software" | "Video" | "Reading" | "Producing";
+export type Category = keyof typeof emojis;
 
 /** data the api returns */
 export interface ProviderInfo {

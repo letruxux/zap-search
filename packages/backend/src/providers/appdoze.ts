@@ -37,6 +37,7 @@ function parsePage(page: string): BaseResult[] {
 export default {
   baseUrl,
   action: "Download",
+  notice: "(Win, Mac, Android)",
   id: "appdoze",
   name: "AppDoze",
   category: "Software",

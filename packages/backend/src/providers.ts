@@ -19,6 +19,8 @@ import zlib from "./providers/zlib";
 import appdoze from "./providers/appdoze";
 import cmacked from "./providers/cmacked";
 import mactorrents from "./providers/mactorrents";
+import androeed from "./providers/androeed";
+import modyolo from "./providers/modyolo";
 
 export default [
   /* games */
@@ -37,6 +39,8 @@ export default [
   Monkrus,
   cracksurl,
   appdoze,
+  androeed,
+  modyolo,
   cmacked,
   mactorrents,
 

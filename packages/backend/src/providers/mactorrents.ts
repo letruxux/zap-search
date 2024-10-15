@@ -37,10 +37,9 @@ function parsePage(page: string): BaseResult[] {
 export default {
   baseUrl,
   action: "Download",
-  notice: "(macOS 🍎)",
   id: "mactorrents",
   name: "Mac Torrents",
-  category: "Software",
+  category: "macOS",
   possibleDownloadTypes: ["direct", "torrent"],
 
   parsePage,
