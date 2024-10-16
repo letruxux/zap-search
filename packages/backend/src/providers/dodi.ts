@@ -61,6 +61,9 @@ export default {
   name: "Dodi Repacks",
   category: "Games",
   possibleDownloadTypes: ["direct", "torrent"],
+  webSearch: {
+    alreadyUsing: true,
+  },
 
   filterResults,
   fetchResults,

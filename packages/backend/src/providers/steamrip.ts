@@ -11,77 +11,47 @@ export function generateUrl({ query }: { query: string }) {
   return urlString;
 }
 
-async function scrapeSearch(url: string): Promise<BaseResult[] | null> {
-  try {
-    const page = await fetchPage(url);
-    const $ = cheerio.load(page);
-    const results = $("#masonry-grid div.post-element");
-    const dataResults: BaseResult[] = [];
-
-    results.each((_, el) => {
-      try {
-        const title = $(el)
-          .find("div.slide a .screen-reader-text")
-          .text()
-          .split("Free Download")[0]!
-          .trim();
-        const link = baseUrl + $(el).find("div.slide a").attr("href")!.trim();
-
-        dataResults.push({
-          title,
-          link,
-        });
-      } catch (e) {
-        console.error("Skipping element due to error:", e);
-      }
-    });
-
-    return dataResults;
-  } catch {
-    return null;
-  }
-}
-
-async function engineSearch(ogQuery: string): Promise<BaseResult[]> {
-  const query = `site:${new URL(baseUrl).hostname} ${ogQuery}`;
-  const queryResult = await webSearch(query);
-
+function parsePage(page: string): BaseResult[] {
+  const $ = cheerio.load(page);
+  const results = $("#masonry-grid div.post-element");
   const dataResults: BaseResult[] = [];
 
-  queryResult.forEach((result) => {
-    if (result.title.toLowerCase().includes("free download")) {
-      const title = result.title
-        .replace(" Free Download", "")
-        .replace(" - SteamRIP", "")
-        .replace(/\s+/g, " ")
-        .trim();
-      const link = result.link;
+  results.each((_, el) => {
+    try {
+      const title = $(el).find("div.slide a .screen-reader-text").text().trim();
+      const link = baseUrl + "/" + $(el).find("div.slide a").attr("href")!.trim();
 
       dataResults.push({
         title,
         link,
       });
+    } catch (e) {
+      console.error("Skipping element due to error:", e);
     }
   });
 
   return dataResults;
 }
 
-export async function fetchResults(url: string): Promise<BaseResult[]> {
-  const query = new URL(url).searchParams.get("s");
-
-  if (!query) {
-    throw new Error("Search failed, invalid query passed.");
-  }
-
-  const webResults = await engineSearch(query);
-  if (webResults) {
-    return webResults;
-  }
-
-  const scrapedResults = await scrapeSearch(url);
-
-  return scrapedResults;
+function filterResults(results: BaseResult[]): BaseResult[] {
+  return results
+    .filter(
+      (e) =>
+        !e.link.endsWith("/games-list-page/") &&
+        !e.link.includes("/page/") &&
+        !e.link.includes("/category/") &&
+        !e.link.endsWith("/top-games/")
+    )
+    .map((result) => {
+      return {
+        title: result.title
+          .replace(" Free Download", "")
+          .replace(" - SteamRIP", "")
+          .replace(/\s+/g, " ")
+          .trim(),
+        link: result.link,
+      };
+    });
 }
 
 export default {
@@ -92,6 +62,7 @@ export default {
   category: "Games",
   possibleDownloadTypes: ["direct"],
 
-  fetchResults,
+  parsePage,
+  filterResults,
   generateUrl,
 } as ProviderExports;

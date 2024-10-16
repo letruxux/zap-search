@@ -1,7 +1,6 @@
 import * as cheerio from "cheerio";
 import type BaseResult from "shared/defs";
 import type { ProviderExports } from "shared/defs";
-import { fetchPage, webSearch } from "../utils";
 
 const baseUrl = "https://online-fix.me/index.php";
 
@@ -35,18 +34,6 @@ function parsePage(page: string): BaseResult[] {
   return dataResults;
 }
 
-async function fetchResults(url: string) {
-  try {
-    const html = await fetchPage(url);
-
-    return parsePage(html);
-  } catch (e) {
-    const query = new URL(url).searchParams.get("s");
-    const results = await webSearch(`site:${new URL(baseUrl).hostname} ${query}`);
-    return results;
-  }
-}
-
 export default {
   baseUrl,
   action: "Download",
@@ -56,6 +43,6 @@ export default {
   category: "Games",
   possibleDownloadTypes: ["direct", "torrent"],
 
-  fetchResults,
+  parsePage,
   generateUrl,
 } as ProviderExports;

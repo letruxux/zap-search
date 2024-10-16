@@ -45,6 +45,9 @@ export interface ProviderInfo {
   baseUrl: string;
   notice?: string;
   possibleDownloadTypes?: DownloadType[];
+  webSearch?: {
+    alreadyUsing: boolean;
+  };
 }
 
 export interface RawProviderExports {

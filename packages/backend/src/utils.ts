@@ -66,15 +66,35 @@ export default async function search(
 
   let data: BaseResult[] = [];
 
-  /* pass query */
-  if (provider.fetchResults) {
-    data = await provider.fetchResults(url);
-  } else if (provider.parsePage) {
-    const html = await fetchPage(url);
-    data = provider.parsePage(html);
+  try {
+    /* pass query */
+    if (provider.fetchResults) {
+      data = await provider.fetchResults(url);
+    } else if (provider.parsePage) {
+      const html = await fetchPage(url);
+      data = provider.parsePage(html);
+    }
+  } catch {
+    try {
+      if (!provider.webSearch?.alreadyUsing) {
+        data = await webSearch(`site:${provider.baseUrl} ${options.query.trim()}`);
+
+        if (provider.filterResults) {
+          data = provider.filterResults(data);
+        }
+      }
+    } catch {
+      console.log(`${provider.name} search for ${options.query} failed`);
+    }
   }
 
-  data = data.filter(({ link, title }) => link && title && isUrl(link));
+  data = data.filter(
+    ({ link, title }) =>
+      link &&
+      title &&
+      isUrl(link) &&
+      new URL(link).href !== new URL(provider.baseUrl).href
+  );
 
   if (provider.filterResults) {
     data = provider.filterResults(data);
