@@ -53,7 +53,7 @@ app.get("/api/search", limiter, async (c) => {
   try {
     const queryParams = c.req.query();
     const { provider, query } = queryParams;
-    const cacheKey = `${provider}:${query}`;
+    const cacheKey = `${provider}:${query}:${provider}`;
 
     if (!query || !provider) {
       return c.status(400);
