@@ -103,11 +103,13 @@ app.get("/api/search", limiter, async (c) => {
         ? errors.map((err) => String(err)).join("\n")
         : null;
 
-    /* store in cache */
-    cache.set(cacheKey, {
-      data: results,
-      expiration: now + CACHE_TTL,
-    });
+    if (errors.length > 0) {
+      /* store in cache */
+      cache.set(cacheKey, {
+        data: results,
+        expiration: now + CACHE_TTL,
+      });
+    }
 
     return c.json({
       error: errorsText,
