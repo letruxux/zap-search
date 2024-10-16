@@ -26,8 +26,8 @@ if (!distFolder.exists() || !indexFile.exists()) {
 }
 
 const limiter = rateLimiter({
-  windowMs: 5 * 1000 /* 1min */,
-  limit: 1 /* 1 request per 5 seconds */,
+  windowMs: 3 * 1000 /* 3 seconds */,
+  limit: 1 /* 1 request per 3 seconds */,
   standardHeaders: "draft-6",
   keyGenerator: (c) => c.req.header("x-forwarded-for") ?? "",
 });
