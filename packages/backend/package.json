@@ -14,6 +14,7 @@
     "fuzzysort": "^3.0.2",
     "google-sr": "^4.0.0",
     "hono": "^4.5.8",
+    "hono-rate-limiter": "^0.4.0",
     "ky": "^1.7.1",
     "string-similarity": "^4.0.4"
   },

@@ -8,7 +8,7 @@
   "scripts": {
     "start:frontend": "bun run --cwd packages/frontend dev",
     "start:backend": "bun run --cwd packages/backend start",
-    "start:all": "concurrently \"bun run start:frontend\" \"bun run start:backend --no-browser\"",
+    "start:all": "concurrently \"bun run start:frontend\" \"bun run start:backend --no-browser --dev\"",
     "build:frontend": "bun run --cwd packages/frontend build",
     "build:backend": "bun run --cwd packages/backend compile:win",
     "build:all": "bun run build:frontend && bun run build:backend",

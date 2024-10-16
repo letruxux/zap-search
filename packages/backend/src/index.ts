@@ -5,12 +5,17 @@ import allProviders from "./providers";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { serveStatic } from "hono/serve-static";
-
+import { rateLimiter } from "hono-rate-limiter";
 import { serve } from "bun";
+
+type Arg = "--no-browser" | "--dev";
 
 const app = new Hono();
 const port = 5180;
+
+const cmdArgs = Bun.argv.slice(2) as Arg[];
 const distFolderPath = "./dist";
+const devMode = cmdArgs.includes("--dev");
 
 const distFolder = Bun.file(distFolderPath);
 const indexFile = Bun.file(`${distFolderPath}/index.html`);
@@ -19,6 +24,13 @@ if (!distFolder.exists() || !indexFile.exists()) {
     `"${distFolderPath}" folder or its files were not found. Make sure you haven\'t moved the dist folder or the executable.`
   );
 }
+
+const limiter = rateLimiter({
+  windowMs: 5 * 1000 /* 1min */,
+  limit: 1 /* 1 request per 5 seconds */,
+  standardHeaders: "draft-6",
+  keyGenerator: (c) => c.req.header("x-forwarded-for") ?? "",
+});
 
 /* helper function to get results from instance */
 async function getResults(providerInstance: ProviderExports, query: string) {
@@ -34,7 +46,7 @@ async function getResults(providerInstance: ProviderExports, query: string) {
 
 app.use("/api/*", cors());
 
-app.get("/api/search", async (c) => {
+app.get("/api/search", limiter, async (c) => {
   try {
     const queryParams = c.req.query();
     const { provider, query } = queryParams;
@@ -126,13 +138,16 @@ app.use(
   })
 );
 
-console.log(`CTRL + click on the link below to open the app in your browser:`);
-console.log("http://localhost:5180");
-console.log("");
-console.log("If you're running this app in development mode, click the link below:");
-console.log("http://localhost:5173");
+if (devMode) {
+  console.log("Running in development\n");
+  console.log(`Backend is running on http://localhost:${port}.`);
+  console.log("Frontend is running on http://localhost:5173.");
+} else {
+  console.log("Running in production\n");
+  console.log(`Running on http://localhost:${port}.`);
+}
 
-if (!Bun.argv.includes("--no-browser")) {
+if (!cmdArgs.includes("--no-browser")) {
   openBrowser(`http://localhost:${port}`);
 }
 
