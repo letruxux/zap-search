@@ -11,6 +11,10 @@ function generateUrl({ query }: { query: string }) {
   return urlString;
 }
 
+function filterResults(results: BaseResult[]): BaseResult[] {
+  return results.filter(({ link, title }) => link.includes("/book/"));
+}
+
 function parsePage(page: string): BaseResult[] {
   const $ = cheerio.load(page);
   const results = $("#searchResultBox .resItemBox.exactMatch");
@@ -45,4 +49,5 @@ export default {
 
   parsePage,
   generateUrl,
+  filterResults,
 } as ProviderExports;
