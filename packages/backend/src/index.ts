@@ -13,6 +13,9 @@ type Arg = "--no-browser" | "--dev";
 const app = new Hono();
 const port = 5180;
 
+const cache = new Map<string, { data: BaseResult[]; expiration: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // cache for 5 minutes
+
 const cmdArgs = Bun.argv.slice(2) as Arg[];
 const distFolderPath = "./dist";
 const devMode = cmdArgs.includes("--dev");
@@ -50,6 +53,7 @@ app.get("/api/search", limiter, async (c) => {
   try {
     const queryParams = c.req.query();
     const { provider, query } = queryParams;
+    const cacheKey = `${provider}:${query}`;
 
     if (!query || !provider) {
       return c.status(400);
@@ -63,6 +67,17 @@ app.get("/api/search", limiter, async (c) => {
     }
 
     console.log(`Searching "${query}" on ${providerInstances.length} sites.`);
+
+    /* check cache */
+    const cached = cache.get(cacheKey);
+    const now = Date.now();
+    if (cached && cached.expiration > now) {
+      console.log("Returning cached results for", query);
+      return c.json({
+        error: null,
+        data: cached.data,
+      });
+    }
 
     const searchPromises = providerInstances.map(async (pr) => {
       const [res, err] = await safePromise(getResults(pr, query));
@@ -87,6 +102,12 @@ app.get("/api/search", limiter, async (c) => {
       errors.length === providerInstances.length
         ? errors.map((err) => String(err)).join("\n")
         : null;
+
+    /* store in cache */
+    cache.set(cacheKey, {
+      data: results,
+      expiration: now + CACHE_TTL,
+    });
 
     return c.json({
       error: errorsText,
