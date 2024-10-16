@@ -84,7 +84,11 @@ function App() {
     )}&query=${encodeURIComponent(query)}`;
     const resp = await fetch(url);
 
-    const json = await resp.json();
+    const json =
+      resp.status === 429
+        ? { error: "Too many requests, try again in a few seconds." }
+        : await resp.json();
+
     console.log(json);
     if (!resp.ok && json.error) {
       throw new Error(json.error);
