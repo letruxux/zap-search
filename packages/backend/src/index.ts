@@ -8,6 +8,11 @@ import { serveStatic } from "hono/serve-static";
 import { rateLimiter } from "hono-rate-limiter";
 import { serve } from "bun";
 
+import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
+
 type Arg = "--no-browser" | "--dev";
 
 const app = new Hono();
@@ -149,10 +154,17 @@ app.use(
         let content = await file.arrayBuffer();
 
         if (file.name.endsWith("index.html")) {
+          const headTag = Bun.env.FRONT_HEAD_TAGS || process.env.FRONT_HEAD_TAGS || "";
+          const bodyTag = Bun.env.FRONT_BODY_TAGS || process.env.FRONT_BODY_TAGS || "";
+
+          console.log("headTag", headTag);
+          console.log("bodyTag", bodyTag);
+
           let htmlContent = await file.text();
+
           htmlContent = htmlContent
-            .replace("</head>", `${Bun.env.FRONT_HEAD_TAGS || ""}</head>`)
-            .replace("<body>", `<body>${Bun.env.FRONT_BODY_TAGS || ""}`);
+            .replace("</head>", `${headTag}</head>`)
+            .replace("<body>", `<body>${bodyTag}`);
           content = Buffer.from(htmlContent).buffer as ArrayBuffer;
         }
 
