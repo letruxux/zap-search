@@ -21,6 +21,7 @@ import cmacked from "./providers/cmacked";
 import mactorrents from "./providers/mactorrents";
 import androeed from "./providers/androeed";
 import modyolo from "./providers/modyolo";
+import appnee from "./providers/appnee";
 
 export default [
   /* games */
@@ -43,6 +44,7 @@ export default [
   modyolo,
   cmacked,
   mactorrents,
+  appnee,
 
   /* roms */
   Nxbrew,
