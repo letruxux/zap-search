@@ -146,7 +146,16 @@ app.use(
     getContent: async (path) => {
       try {
         const file = Bun.file(path);
-        const content = await file.arrayBuffer();
+        let content = await file.arrayBuffer();
+
+        if (file.name.endsWith("index.html")) {
+          let htmlContent = await file.text();
+          htmlContent = htmlContent
+            .replace("</head>", `${Bun.env.FRONT_HEAD_TAGS || ""}</head>`)
+            .replace("<body>", `<body>${Bun.env.FRONT_BODY_TAGS || ""}`);
+          content = Buffer.from(htmlContent).buffer as ArrayBuffer;
+        }
+
         return new Response(content, {
           headers: {
             "Content-Type": file.type,
