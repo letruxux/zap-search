@@ -157,9 +157,6 @@ app.use(
           const headTag = Bun.env.FRONT_HEAD_TAGS || process.env.FRONT_HEAD_TAGS || "";
           const bodyTag = Bun.env.FRONT_BODY_TAGS || process.env.FRONT_BODY_TAGS || "";
 
-          console.log("headTag", headTag);
-          console.log("bodyTag", bodyTag);
-
           let htmlContent = await file.text();
 
           htmlContent = htmlContent
