@@ -14,7 +14,6 @@ function generateUrl({ query }: { query: string }) {
 }
 
 function filterResults(results: BaseResult[]): BaseResult[] {
-  console.log(results.map((e) => e.link));
   return results
     .filter(
       ({ link }) =>
@@ -29,7 +28,8 @@ function filterResults(results: BaseResult[]): BaseResult[] {
           link.endsWith("/history/") ||
           link.endsWith("/author/") ||
           /\d{4}\/\d{2}\/\d{2}\/?$/.test(link) ||
-          /\d{4}\/\d{2}\/?$/.test(link)
+          /\d{4}\/\d{2}\/?$/.test(link) ||
+          link.includes("qa.appnee.com")
         )
     )
     .map((e) => ({ ...e, title: e.title.replace("- AppNee", "").trim() }));
